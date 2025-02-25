@@ -13,6 +13,10 @@
         box-sizing: border-box;
     }
     
+    body, html {
+        overflow: visible; /* Đảm bảo không bị che mất */
+        position: relative; /* Tránh lỗi layout */
+    }
     .header {
         background-image: url('image/minimal-geometric-background-orange-elements-with-fluid-gradient-for-posters-banners-and-website-landing-pages-free-vector.jpg');
         background-size: cover;
@@ -20,12 +24,14 @@
         padding: 2rem 0;
         width: 100%;
         position: relative;
+        padding: 3rem 0;
     }
     
     .container {
         max-width: 1700px;
         margin-left: auto;
         margin-right: auto;
+        max-width: 1700px;
         padding: 0 auto;
     }
     
@@ -63,23 +69,16 @@
     
     }
     .menu {
-/*        display: flex;
-        list-style: none;
-        gap: 2rem;
-        padding: 10px;
-        border-radius: 10px;
-        background-color: #495D5F;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);*/
         display: flex;
+        flex-wrap: wrap; /* Đảm bảo menu tự động xuống dòng khi thu nhỏ */
         list-style: none;
         padding: 10px 0;
-        justify-content: center; /* Căn giữa menu theo chiều ngang */
-        align-items: center; /* Căn giữa theo chiều dọc */
-        width: fit-content; /* Chỉ chiếm đúng kích thước nội dung */
+        justify-content: center; /* Căn giữa menu */
+        align-items: center;
+        width: 100%; /* Đảm bảo menu co giãn theo kích thước */
         max-width: 800px;
-        margin: 0 auto; /* Căn giữa theo chiều ngang */
         margin-top: 100px;
-        margin-left: 225px;
+        margin-right:  350px;
         border-radius: 10px;
         background-color: #495D5F;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -90,6 +89,14 @@
         align-items: center; /* Căn giữa nội dung theo chiều dọc */
         justify-content: center; /* Căn giữa theo chiều ngang */
         padding: 0;
+    }
+    
+    .menu ul {
+        display: flex;
+        list-style: none;
+        justify-content: center;
+        background-color: #1483BA;
+        padding: 10px;
     }
     .menu-item a {
         color: #FFFFFF;
@@ -105,38 +112,29 @@
     }
     
     .search-bar{
-/*        display: flex;
-        align-items: center;
-        background: #fff;
-        border-radius: 20px;
-        padding: 0 1rem;
-        margin-right: 100px;*/
-        display: flex;
-        align-items: center;
+        position: absolute; /* Giữ trong header, không bị trôi theo nội dung */
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 660px;
+        max-width: 90%;
         background: white;
         border-radius: 20px;
-        padding: 0.5rem 1.8rem;
-        margin: auto;
-        margin-top: 40px;
-        margin-bottom: 0;
-        margin-left: 15px;
-        position: fixed; /* Fix the search bar at the top */
-        top: 10px; /* Adjust top position as needed */
-        left: 50%;
-        transform: translateX(-50%); /* Centers the search bar horizontally */
-        z-index: 1; /* Ensures search bar stays on top of the header */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds a shadow effect to separate from the header */
-        justify-content: space-between; /* Aligns input on the left and button on the right */
-        width: 660px; /* Adjust width as needed */
+        padding: 0.5rem 1rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 1000;
     }
     
     .search-input {
         border: none;
         outline: none;
         padding: 0.5rem;
+        width: 100%;
         flex-grow: 1;
         font-size: 1rem;
-        color: #333;
         background: transparent;
     }
     
@@ -144,9 +142,8 @@
         background: none;
         border: none;
         cursor: pointer;
-        color: yellow;
-        padding: 0;
-        margin-left: 20px;
+        color: #FF6B01;
+        font-size: 1.2rem;
     }
     
     .login {
@@ -157,11 +154,14 @@
         border-radius: 25px;
         position: absolute;
         right: 0;
+        margin-right:  10px;
+        
     }
     .login img {
         display: fixed;
         width: 50px;
         height: 50px;
+        
     }
     
     .cart {
@@ -180,6 +180,47 @@
         display: fixed;
         width: 50px;
         height: 50px;
+    }
+    
+    @media (max-width: 768px) {
+        .header {
+            padding: 1rem 0;
+            flex-direction: column;
+        }
+
+        .logo {
+            justify-content: center;
+            margin-left: 0;
+        }
+
+        .logo img {
+            max-width: 60px; /* Thu nhỏ logo trên màn hình nhỏ */
+        }
+
+        .search-bar {
+            position: relative; /* Không cố định khi màn hình nhỏ */
+            top: 0;
+            width: 100%;
+            max-width: 100%;
+            margin-top: 10px;
+        }
+
+        .menu {
+            flex-direction: column; /* Chuyển menu thành dạng dọc */
+            align-items: center;
+            max-width: 100%;
+            padding: 10px;
+        }
+
+        .menu-item {
+            width: 100%;
+            text-align: center;
+        }
+
+        .menu-item a {
+            display: block;
+            padding: 10px;
+        }
     }
 </style>
 
