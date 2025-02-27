@@ -18,7 +18,7 @@
         position: relative; /* Tránh lỗi layout */
     }
     .header {
-        background-image: url('image/minimal-geometric-background-orange-elements-with-fluid-gradient-for-posters-banners-and-website-landing-pages-free-vector.jpg');
+        background-image: url('image/z6356433591562_7559b4a02068fdc71cf79b652c3e79ba-processed(lightpdf.com).jpg');
         background-size: cover;
         background-position: center;
         padding: 2rem 0;
@@ -70,15 +70,13 @@
     }
     .menu {
         display: flex;
+        background-image: url('image/z6356433591562_7559b4a02068fdc71cf79b652c3e79ba-processed(lightpdf.com).jpg');
         flex-wrap: wrap; /* Đảm bảo menu tự động xuống dòng khi thu nhỏ */
         list-style: none;
         padding: 10px 0;
         justify-content: center; /* Căn giữa menu */
         align-items: center;
         width: 100%; /* Đảm bảo menu co giãn theo kích thước */
-        max-width: 800px;
-        margin-top: 100px;
-        margin-right:  350px;
         border-radius: 10px;
         background-color: #495D5F;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -144,6 +142,10 @@
         cursor: pointer;
         color: #FF6B01;
         font-size: 1.2rem;
+    }
+    
+    .nav_a{
+        
     }
     
     .login {
@@ -234,14 +236,14 @@
                 <img src="image/z6344218901443_e4fd8ed41ec42487b1140ea5a3e4832d.jpg" alt="The Best Game Online">
                 <p class="Banner">The Best Game Online</p>
             </a>
-
-            <button class="login">
-                <img src="image/user-interface.png" alt="Login Image"/>
-            </button>
-            
-            <button class="cart">
-                <img src="image/Cart_Game.jpeg" alt="Cart Game">
-            </button>
+            <nav class="nav_a">
+                <button class="login nav_button">
+                    <img src="image/user-interface.png" alt="Login Image"/>
+                </button>
+                <button class="cart nav_button">
+                    <img src="image/Cart_Game.jpeg" alt="Cart Game">
+                </button>
+            </nav>
             <ul class="menu">
                 <li class="menu-item"><a href="#">Trang Chủ</a></li>
                 <li class="menu-item"><a href="#">Sản phẩm</a></li>
