@@ -20,7 +20,7 @@
                 align-items: center;
                 padding: 20px;
             }
-
+            
             .login-form {
                 background: white;
                 padding: 30px;
