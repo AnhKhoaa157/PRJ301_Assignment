@@ -11,12 +11,13 @@ Create database Muabangame_com;
 Use Muabangame_com
 CREATE TABLE tblGames (
     game_id      INT PRIMARY KEY IDENTITY(1,1),
-    title        NVARCHAR(255) NOT NULL,
+    game_name    NVARCHAR(255) NOT NULL,
     price        DECIMAL(10,2) NOT NULL CHECK (price >= 0),
     release_date DATE,
     genre        NVARCHAR(100),
     platform     NVARCHAR(100),
-    stock        INT DEFAULT 0 CHECK (stock >= 0),
+    Description  TEXT,
+    stock    INT DEFAULT 0 CHECK (stock >= 0),
     image_url    NVARCHAR(255),
     created_at   DATETIME DEFAULT GETDATE(),
     updated_at   DATETIME DEFAULT GETDATE()
@@ -91,7 +92,7 @@ CREATE TABLE tblCart (
 CREATE TABLE tblDiscounts (
     Discount_id INT PRIMARY KEY IDENTITY(1,1),
     Game_id     INT NOT NULL,
-Discount_percent DECIMAL(5,2) NOT NULL CHECK (discount_percent BETWEEN 0 AND 100),
+    Discount_percent DECIMAL(5,2) NOT NULL CHECK (discount_percent BETWEEN 0 AND 100),
     Start_date  DATE NOT NULL,
     End_date    DATE NOT NULL,
     FOREIGN KEY (Game_id) REFERENCES tblGames(Game_id)
@@ -102,7 +103,9 @@ CREATE TABLE tblWishlists (
     Wishlist_id INT PRIMARY KEY IDENTITY(1,1),
     User_id     INT NOT NULL,
     Game_id     INT NOT NULL,
+    Game_name   NVARCHAR(255)	
     Added_at    DATETIME DEFAULT GETDATE(),
     FOREIGN KEY (User_id) REFERENCES tblUsers(User_id),
     FOREIGN KEY (Game_id) REFERENCES tblGames(Game_id)
+    FOREIGN KEY (Game_name) REFERENCES tblGames(Game_name)	
 );
