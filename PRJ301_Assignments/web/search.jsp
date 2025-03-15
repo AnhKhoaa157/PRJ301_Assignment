@@ -4,7 +4,7 @@
     Author     : LENOVO
 --%>
 
-<%@page import="java.util.List"%>
+<%@page import="dao.BookDAO"%>
 <%@page import="java.util.List"%>
 <%@page import="dto.BookDTO"%>
 <%@page import="dto.UserDTO"%>
@@ -70,16 +70,11 @@
         <body> 
             <%@include file="header.jsp" %>
             <div style="min-height: 500px; padding: 10px">
+
+
                 <%                if (session.getAttribute("user") != null) {
                         UserDTO user = (UserDTO) session.getAttribute("user");
                 %>
-                <h1> Welcome <%=user.getFullName()%> </h1>
-                <form action="MainController">
-                    <input type="hidden" name="action" value="logout"/>
-                    <input type="submit" value="Logout"/>
-                </form>
-
-                <br/>
 
                 <form action="MainController">
                     <input type="hidden" name="action" value="search"/>

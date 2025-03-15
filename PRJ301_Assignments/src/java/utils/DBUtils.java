@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * @author LENOVO
  */
 public class DBUtils {
-    private static final String DB_NAME = "prj301_1820_slot8";
+    private static final String DB_NAME = "Muabangame_com";
     private static final String DB_USER_NAME = "sa";
     private static final String DB_PASSWORD = "12345";
     

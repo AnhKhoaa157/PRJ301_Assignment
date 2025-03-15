@@ -7,10 +7,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <style>
     .footer {
-        background-image: url('image/minimal-geometric-background-orange-elements-with-fluid-gradient-for-posters-banners-and-website-landing-pages-free-vector.jpg');
+        background-image: url('image/z6356433591562_7559b4a02068fdc71cf79b652c3e79ba-processed(lightpdf.com).jpg');
         color: #fff;
         padding: 3rem 0;
-        margin-top: 2rem;
+        margin-top: 0;
     }
 
     .footer-container {

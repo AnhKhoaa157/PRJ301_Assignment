@@ -11,25 +11,51 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Đăng nhập</title>
         <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                height: 100%; /* để 100% chiều cao trình duyệt */
+                overflow: hidden; /* ngăn cuộn toàn bộ */
+            }
             .login-container {
-                min-height: 500px;
+                background-image: url('image/4cfe81c9de0c66031c6d861092f00966.jpg');
+                background-size: cover;
+                background-position: center;
+                width: 100%; /* full width */
+                height: 100vh; /* full height of viewport */
                 display: flex;
                 position: relative;
-                background-image: url('image/modern-dark-gaming-background-with-orange-neon-light-panel-free-vector.jpg');
                 justify-content: center;
                 align-items: center;
                 padding: 20px;
             }
             
+            .banner-container {
+                flex: 1;
+                margin-left: 250px;
+                position: absolute;
+                margin-right: 900px;
+                
+            }
+            
+            .banner {
+                max-width: 300px;
+                height: auto;
+                object-fit: contain;
+                flex: 1;
+            }
+            
             .login-form {
-                background: white;
+                background-image: url('image/modern-dark-gaming-background-with-orange-neon-light-panel-free-vector.jpg');
+                background-size: cover;
+                background-position: center;
                 padding: 30px;
                 border-radius: 8px;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                 width: 100%;
                 max-width: 400px;
                 position: absolute;
-                margin-right: 100px;
+                margin-right: 200px;
                 right: 0;
                 top: 50%; /* Optional: Center vertically */
                 transform: translateY(-50%); /* Optional: Adjust vertical alignment */
@@ -47,7 +73,7 @@
             }
 
             .form-group input {
-                width: 100%;
+                width: 95%;
                 padding: 10px;
                 border: 1px solid #ddd;
                 border-radius: 4px;
@@ -77,17 +103,51 @@
             }
 
             .form-title {
-                text-align: center;
+                text-align: center; 
                 margin-bottom: 30px;
                 color: #333;
+            }
+            
+            h4 {
+                justify-content: center;
+                align-items: center;    
+
+            }
+            
+            h4 a{
+                text-decoration: none;
+                color: red;
+            }
+            
+            h4 a:hover{
+                color: yellow;
+                transition-duration:  0.5s;
+            }
+            
+            h3 {
+                justify-content: center;
+                align-items: center;    
+
+            }
+            
+            h3 a{
+                text-decoration: none;
+                color: red;
+            }
+            
+            h3 a:hover{
+                color: blue;
+                transition-duration:  0.5s;
             }
         </style>
     </head>
     <body>
-        <%@include file="header.jsp" %>
         <div class="login-container">
+            <div class="banner-container">
+                <img class="banner" src="image/e1d978bb4df4cf44a79a227f4180c6b5.png" alt="Banner">
+            </div>
             <div class="login-form">
-                <h2 class="form-title">Đăng nhập</h2>
+                <h2 class="form-title" style="color: red">Đăng nhập</h2>
                 <form action="MainController" method="post">
                     <input type="hidden" name="action" value="login" />
 
@@ -102,7 +162,12 @@
                     </div>
 
                     <button type="submit" class="submit-btn">Đăng nhập</button>
-                    
+                    <h3 style="color: white">
+                        <a href="#">Register</a> / <a href="#">Forgot Password?</a>
+                    </h3>
+                    <h4 style="color: white">
+                        Back to <a href="index.jsp">Menu</a>  / Use as <a href="menu.jsp">Guest</a>
+                    </h4>
                     <%
                         String message = request.getAttribute("message")+"";
                     %>
@@ -110,6 +175,5 @@
                 </form>
             </div>
         </div>
-        <jsp:include page="footer.jsp"/>
     </body>
 </html>
