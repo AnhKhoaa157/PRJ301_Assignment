@@ -1,10 +1,9 @@
 <%-- 
-    Document   : User
-    Created on : Feb 13, 2025, 11:47:20 AM
+    Document   : cart
+    Created on : Mar 9, 2025, 10:51:00 PM
     Author     : LENOVO
 --%>
 
-<%@page import="dto.UserDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,10 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
-    
-        <%
-            UserDTO user = (UserDTO)request.getAttribute("user");
-        %>
-        <h1>Welcome <%=user.getUserName()%> </h1>
-    
+    <body>
+        <h1>Hello World!</h1>
+    </body>
 </html>
