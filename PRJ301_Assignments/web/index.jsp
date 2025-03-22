@@ -9,11 +9,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="icon" type="image/jpg" href="image/z6344218901443_e4fd8ed41ec42487b1140ea5a3e4832d.jpg">
+        <link rel="icon" type="assets/image/jpg" href="assets/image/z6344218901443_e4fd8ed41ec42487b1140ea5a3e4832d.jpg">
         <title>The Best Game Online</title>
         <style>
             .welcome-container {
-                background-image: url("image/20240818214820_1.jpg");
+                background-image: url("assets/image/20240818214820_1.jpg");
                 background-size: cover;
                 background-position: center;
                 display: flex;
