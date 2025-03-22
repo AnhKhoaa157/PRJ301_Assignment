@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <style>
     .footer {
-        background-image: url('image/z6356433591562_7559b4a02068fdc71cf79b652c3e79ba-processed(lightpdf.com).jpg');
+        background-image: url('assets/image/z6356433591562_7559b4a02068fdc71cf79b652c3e79ba-processed(lightpdf.com).jpg');
         color: #fff;
         padding: 3rem 0;
         margin-top: 0;
@@ -25,7 +25,7 @@
     .footer-section h3 {
         font-size: 1.2rem;
         margin-bottom: 1rem;
-        color: #FFFFFF;
+        color: white;
     }
 
     .footer-section p {

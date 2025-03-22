@@ -10,5 +10,5 @@ package dto;
  * @author LENOVO
  */
 public class GameDTO {
-
+    
 }

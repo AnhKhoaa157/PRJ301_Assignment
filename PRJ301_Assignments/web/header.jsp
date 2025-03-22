@@ -28,7 +28,7 @@
 
     /* HEADER */
     .header {
-        background-image: url('image/z6356433591562_7559b4a02068fdc71cf79b652c3e79ba-processed(lightpdf.com).jpg');
+        background-image: url('assets/image/z6356433591562_7559b4a02068fdc71cf79b652c3e79ba-processed(lightpdf.com).jpg');
         background-size: cover;
         background-position: center;
         display: flex;
@@ -74,7 +74,7 @@
 
     /* MENU */
     .menu {
-        background-image: url('image/z6356433591562_7559b4a02068fdc71cf79b652c3e79ba-processed(lightpdf.com).jpg');
+        background-image: url('assets/image/z6356433591562_7559b4a02068fdc71cf79b652c3e79ba-processed(lightpdf.com).jpg');
         display: flex;
         align-items: center;
         gap: 30px;
@@ -216,7 +216,7 @@
     %>
     <div class="container">
                <a href="#" class="logo">
-                <img src="image/z6344218901443_e4fd8ed41ec42487b1140ea5a3e4832d.jpg" alt="The Best Game Online">
+                <img src="assets/image/z6344218901443_e4fd8ed41ec42487b1140ea5a3e4832d.jpg" alt="The Best Game Online">
                 <p class="Banner">The Best <span> Game Online </span></p>
                 </a>
             <ul class="menu">
@@ -232,7 +232,7 @@
             <%}%>
             <div class='right-section'>
                 <i class="bx bx-search" id="search-icon">
-                    <img src='image/search-alt-2-regular-24.png' alt="search-icon"/>
+                    <img src='assets/image/search-alt-2-regular-24.png' alt="search-icon"/>
                 </i>
                 <div class="search-box">
                     <form action="search.jsp" method="GET">
@@ -257,14 +257,14 @@
                 %>
                     <!-- Hiển thị nút Đăng Nhập nếu chưa login -->
                     <button class="login" onclick="window.location.href='login.jsp'">
-                        <img src="image/user-regular-36.png" alt="Login Image"/>
+                        <img src="assets/image/user-regular-36.png" alt="Login Image"/>
                         <p>Đăng Nhập</p>
                     </button>
                 <%
                     }
                 %>
                 <button class="cart">
-                    <img src="image/cart-alt-regular-24.png" alt="Cart Game">
+                    <img src="assets/image/cart-alt-regular-24.png" alt="Cart Game">
                 </button>
             </div>
     </div>

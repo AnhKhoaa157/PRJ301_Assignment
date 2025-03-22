@@ -18,7 +18,7 @@
                 overflow: hidden; /* ngăn cuộn toàn bộ */
             }
             .login-container {
-                background-image: url('image/4cfe81c9de0c66031c6d861092f00966.jpg');
+                background-image: url('assets/image/4cfe81c9de0c66031c6d861092f00966.jpg');
                 background-size: cover;
                 background-position: center;
                 width: 100%; /* full width */
@@ -46,7 +46,7 @@
             }
             
             .login-form {
-                background-image: url('image/modern-dark-gaming-background-with-orange-neon-light-panel-free-vector.jpg');
+                background-image: url('assets/image/modern-dark-gaming-background-with-orange-neon-light-panel-free-vector.jpg');
                 background-size: cover;
                 background-position: center;
                 padding: 30px;
@@ -144,7 +144,7 @@
     <body>
         <div class="login-container">
             <div class="banner-container">
-                <img class="banner" src="image/e1d978bb4df4cf44a79a227f4180c6b5.png" alt="Banner">
+                <img class="banner" src="assets/image/e1d978bb4df4cf44a79a227f4180c6b5.png" alt="Banner">
             </div>
             <div class="login-form">
                 <h2 class="form-title" style="color: red">Đăng nhập</h2>
