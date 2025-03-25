@@ -81,50 +81,32 @@ public class GameDAO implements IDAO<GameDTO, String>{
         return list;
     }
     
-        public List<GameDTO> getAllUsers() {
-        String sql = "SELECT user_id, username, fullname, email, phone, address, role, created_at " +
-                     "FROM tblUsers";
+    public List<GameDTO> getAllGames() {
+        String sql = "SELECT game_id, game_name, price, release_date, genre, platform, description, stock, image_url, created_at, updated_at FROM tblGames";
         List<GameDTO> list = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            conn = DBUtils.getConnection();
-            if (conn == null) {
-                System.out.println("Failed to get database connection");
-                return list;
-            }
-            ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
+        try (Connection conn = DBUtils.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                GameDTO user = new GameDTO(
-                        rs.getInt("game_id"),
-                        rs.getString("game_name"),
-                        rs.getBigDecimal("price"),
-                        rs.getDate("release_date"),
-                        rs.getString("genre"),
-                        rs.getString("platform"),
-                        rs.getString("description"),
-                        rs.getInt("stock"),
-                        rs.getString("image_url"),
-                        rs.getTimestamp("created_at"),
-                        rs.getTimestamp("updated_at")
-                );
-                list.add(user);
+                list.add(new GameDTO(
+                    rs.getInt("game_id"),
+                    rs.getString("game_name"),
+                    rs.getBigDecimal("price"),
+                    rs.getDate("release_date"),
+                    rs.getString("genre"),
+                    rs.getString("platform"),
+                    rs.getString("description"),
+                    rs.getInt("stock"),
+                    rs.getString("image_url"),
+                    rs.getTimestamp("created_at"),
+                    rs.getTimestamp("updated_at")
+                ));
             }
-            System.out.println("getAllUsers: Found " + list.size() + " users");      
+        } catch (SQLException e) {
+            System.err.println("SQL Error in getAllGames: " + e.getMessage());
+            e.printStackTrace();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
             Logger.getLogger(GameDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                System.err.println("Error closing resources: " + e.getMessage());
-            }
         }
         return list;
     }

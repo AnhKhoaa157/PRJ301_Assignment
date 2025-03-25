@@ -73,19 +73,21 @@ public class GameController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-            String url = ADMIN_PAGE;
+        String url = ADMIN_PAGE;
         try {
             String action = request.getParameter("action");
             String page = request.getParameter("page");
             System.out.println("Action: " + action + ", Page: " + page);
-            if (action == null || action.isEmpty()) {
-                url = ADMIN_PAGE;
-            } else if(action != null && action.equals("searchGame")){
-                url = processSearchGames(request, response);
-            } else if (page != null && page.equals("searchGame")) { // Xử lý khi vào từ slide bar
-                    url = processGetAllGames(request, response);
+            if (action == null && page == null) {
+                url = LOGIN_PAGE;
             } else {
-                url = ADMIN_PAGE; // Mặc định về admin.jsp nếu không khớp
+                if ("searchGame".equals(action)) {
+                    url = processSearchGames(request, response);
+                } else if ("searchGame".equals(page)) {
+                    url = processGetAllGames(request, response);
+                } else {
+                    url = ADMIN_PAGE; // Mặc định về admin.jsp nếu không khớp
+                }
             }
 
         } catch (Exception e) {

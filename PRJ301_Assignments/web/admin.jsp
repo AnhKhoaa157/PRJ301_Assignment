@@ -65,7 +65,6 @@
                 align-items: center; /* Căn giữa nội dung chính */
             }
 
-/* Style cho sidebar từ slidebar.jsp */
             .sidebar {
                 width: 240px;
                 height: 100vh;
@@ -169,9 +168,9 @@
                     %>
                                 <jsp:include page="searchGame.jsp"/>
                     <%          break;
-                            case "managePosts":
+                            case "manageCart":
                     %>
-                                <jsp:include page="managePosts.jsp"/>
+                                <jsp:include page="manageCart.jsp"/>
                     <%          break;
                             case "settings":
                     %>
@@ -179,7 +178,7 @@
                     <%          break;
                             default:
                     %>
-                                <h2>.../h2>
+                                <h2>...</h2>
                     <%      }
                     %>
                 </div>
