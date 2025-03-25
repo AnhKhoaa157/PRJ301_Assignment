@@ -24,24 +24,22 @@ public class UserDAO implements IDAO<UserDTO, String>{
 
     @Override
     public boolean create(UserDTO entity) {
-        String sql = "INSERT INTO tblUsers (userID, userName, password, email, phone, address, roleID) "
-                   + "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        Connection conn;        
-        try{
-            conn = DBUtils.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, entity.getUserID());
-            ps.setString(2, entity.getUserName());
-            ps.setString(3, entity.getPassword());
-            ps.setString(4, entity.getEmail());
-            ps.setString(5, entity.getPhone());
-            ps.setString(6, entity.getAddress());
-            ps.setString(7, entity.getRoleID());
+        String sql = "INSERT INTO tblUsers (username, password, email, phone, address, role) "
+                   + "VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DBUtils.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, entity.getUsername());
+            ps.setString(2, entity.getPassword());
+            ps.setString(3, entity.getEmail());
+            ps.setString(4, entity.getPhone());
+            ps.setString(5, entity.getAddress());
+            ps.setString(6, entity.getRole());
+
             int n = ps.executeUpdate();
-            return n>0;
-        } catch (ClassNotFoundException ex){
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+            return n > 0;
+
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -50,148 +48,206 @@ public class UserDAO implements IDAO<UserDTO, String>{
     @Override
     public List<UserDTO> readAll() {
         List<UserDTO> list = new ArrayList<>();
-        String sql = "SELECT * FROM [tblUsers]";
-        try{
-            Connection conn = DBUtils.getConnection();
-            conn = DBUtils.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+        String sql = "SELECT * FROM tblUsers";
+        try (Connection conn = DBUtils.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
                 UserDTO user = new UserDTO(
-                        rs.getInt("userNumber"),
-                        rs.getString("userID"),
-                        rs.getString("userName"),
+                        rs.getInt("user_id"),
+                        rs.getString("username"),
+                        rs.getString("fullname"),
                         rs.getString("password"),
                         rs.getString("email"),
                         rs.getString("phone"),
                         rs.getString("address"),
-                        rs.getString("roleID"),
-                        rs.getTimestamp("createdAt")
+                        rs.getString("role"),
+                        rs.getTimestamp("created_at")
                 );
                 list.add(user);
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
     }
+
 
 
     @Override
     public boolean update(UserDTO entity) {
-        String sql = "UPDATE tblUsers SET userName=?, "
-                        + "password=?, "
-                        + "email=?, "
-                        + "phone=?, "
-                        + "address=?, "
-                        + "roleID=? "
-                        + "WHERE userID=?";
-        Connection conn;
-        try{
-            conn = DBUtils.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, entity.getUserName());
-            ps.setString(2, entity.getPassword());
-            ps.setString(3, entity.getEmail());
-            ps.setString(4, entity.getPhone());
-            ps.setString(5, entity.getAddress());
-            ps.setString(6, entity.getRoleID());
-            ps.setString(7, entity.getUserID());
-            int n = ps.executeUpdate();
-            return n>0;
-        } catch (ClassNotFoundException ex){
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        String sql = "UPDATE tblUsers SET username=?, fullname=?, password=?, email=?, phone=?, address=?, role=? WHERE user_id=?";
+        try (Connection conn = DBUtils.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, entity.getUsername());
+            ps.setString(2, entity.getFullname());
+            ps.setString(3, entity.getPassword());
+            ps.setString(4, entity.getEmail());
+            ps.setString(5, entity.getPhone());
+            ps.setString(6, entity.getAddress());
+            ps.setString(7, entity.getRole());
+            ps.setInt(8, entity.getUserId());
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
 
+
     @Override
-    public boolean delete(String id) {
-        String sql = "DELETE FROM [tblUsers] WHERE [userID] = ?";
-        Connection conn;
-        try{
-            conn = DBUtils.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, id);
-            int n = ps.executeUpdate();
-            return n>0;
-        } catch (ClassNotFoundException ex){
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+    public boolean delete(String userName) {
+        String sql = "DELETE FROM tblUsers WHERE userName = ?";
+        try (Connection conn = DBUtils.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, userName);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
+
 
     @Override
     public List<UserDTO> search(String searchTerm) {
         List<UserDTO> list = new ArrayList<>();
-        String sql = "SELECT [userID], [userName], [roleID], [email], [phone], [address], [createdAt] FROM [tblUsers] "
-                   + "WHERE [userID] LIKE ? OR [userName] LIKE ? OR [roleID] LIKE ?";
-        try {
-            Connection conn = DBUtils.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+        String sql = "SELECT * FROM tblUsers WHERE username LIKE ? OR fullname LIKE ? OR role LIKE ?";
+
+        try (Connection conn = DBUtils.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
             String searchPattern = "%" + searchTerm + "%";
-            // Thiết lập giá trị cho tất cả các tham số
-                pstmt.setString(1, searchPattern);
-                pstmt.setString(2, searchPattern);
-                pstmt.setString(3, searchPattern);
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                UserDTO user = new UserDTO(
-                        rs.getString("userID"),
-                        rs.getString("userName"),
-                        rs.getString("email"),
-                        rs.getString("phone"),
-                        rs.getString("address"),
-                        rs.getString("roleID"),
-                        rs.getTimestamp("createdAt")
-                );
-                list.add(user);
+            ps.setString(1, searchPattern);
+            ps.setString(2, searchPattern);
+            ps.setString(3, searchPattern);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    UserDTO user = new UserDTO(
+                            rs.getInt("user_id"),
+                            rs.getString("username"),
+                            rs.getString("fullname"),
+                            rs.getString("password"),
+                            rs.getString("email"),
+                            rs.getString("phone"),
+                            rs.getString("address"),
+                            rs.getString("role"),
+                            rs.getTimestamp("created_at")
+                    );
+                    list.add(user);
+                }
             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
     }
 
+
     @Override
-    public UserDTO readByID(String id) {
-        String sql = "SELECT * FROM tblUsers WHERE userID= ?";
-        try {
-            Connection conn = DBUtils.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                UserDTO user = new UserDTO(
-                        rs.getString("userID"),
-                        rs.getString("userName"),
-                        rs.getString("password"),
-                        rs.getString("email"),
-                        rs.getString("phone"),
-                        rs.getString("address"),
-                        rs.getString("roleID")
-                       
-                );
-                return user;
+    public UserDTO readByID(String userName) {
+        String sql = "SELECT * FROM tblUsers WHERE username = ?";
+        try (Connection conn = DBUtils.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, userName);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new UserDTO(
+                            rs.getInt("user_id"),
+                            rs.getString("username"),
+                            rs.getString("fullname"),
+                            rs.getString("password"),
+                            rs.getString("email"),
+                            rs.getString("phone"),
+                            rs.getString("address"),
+                            rs.getString("role"),
+                            rs.getTimestamp("created_at")
+                    );
+                }
             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
     
-    public List<UserDTO> searchUser(String searchTerm){
+    public List<UserDTO> getUserByName(String searchTerm) {
+        String sql = "SELECT * FROM tblUsers WHERE fullname LIKE ?";
         List<UserDTO> list = new ArrayList<>();
+        try {
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, "%" + searchTerm + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                UserDTO user = new UserDTO(
+                    rs.getInt("user_id"),
+                    rs.getString("username"),
+                    rs.getString("fullname"),
+                    rs.getString("password"),
+                    rs.getString("email"),
+                    rs.getString("phone"),
+                    rs.getString("address"),
+                    rs.getString("role"),
+                    rs.getTimestamp("created_at"));
+                list.add(user);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // In lỗi SQL đầy đủ ra console
+        }
+        return list;
+    }
+    
+    public List<UserDTO> getAllUsers() {
+        String sql = "SELECT user_id, username, fullname, email, phone, address, role, created_at " +
+                     "FROM tblUsers";
+        List<UserDTO> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn == null) {
+                System.out.println("Failed to get database connection");
+                return list;
+            }
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                UserDTO user = new UserDTO(
+                    rs.getInt("user_id"),
+                    rs.getString("username"),
+                    rs.getString("fullname"),
+                    null,
+                    rs.getString("email"),
+                    rs.getString("phone"),
+                    rs.getString("address"),
+                    rs.getString("role"),
+                    rs.getTimestamp("created_at")
+                );
+                list.add(user);
+            }
+            System.out.println("getAllUsers: Found " + list.size() + " users");
+        } catch (SQLException e) {
+            System.err.println("SQL Error in getAllUsers: " + e.getMessage());
+            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                System.err.println("Error closing resources: " + e.getMessage());
+            }
+        }
         return list;
     }
 }

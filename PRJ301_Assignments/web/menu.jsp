@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="assets/css/index.css">
     </head>
     <body>
-        <%@include file='header.jsp' %>
+        <%@include file='partials/header.jsp' %>
 
         <%
             if (!AuthUtils.isLoggedIn(session)) {
@@ -111,6 +111,6 @@
             } // end if isLoggedIn
         %>
 
-        <jsp:include page="footer.jsp"/>
+        <jsp:include page="partials/footer.jsp"/>
     </body>
 </html>

@@ -246,7 +246,7 @@
                 %>
                     <!-- Hiển thị tên user và nút Đăng Xuất -->
                     <div class="user-section">
-                        <span class="welcome-text">Xin chào, <strong><%= userHeader.getUserName()%></strong>!</span>
+                        <span class="welcome-text">Xin chào, <strong><%= userHeader.getFullname()%></strong>!</span>
                         <form action="MainController" method="post" style="margin: 0;">
                             <input type="hidden" name="action" value="logout"/>
                             <button type="submit" class="logout-btn">Đăng Xuất</button>

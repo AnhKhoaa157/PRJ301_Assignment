@@ -1,93 +1,110 @@
 package dto;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 public class UserDTO {
-    private int userNumber; // Auto Increment
-    private String userID; // Primary Key
-    private String userName;
+    private int userId;
+    private String username;
+    private String fullname;
     private String password;
     private String email;
     private String phone;
     private String address;
-    private String roleID; // 'Customer' or 'Admin'
+    private String role;
     private Timestamp createdAt;
 
     // Constructors
     public UserDTO() {}
 
-    public UserDTO(int userNumber, String userID, String userName, String password, String email, String phone, String address, String roleID, Timestamp createdAt) {
-        this.userNumber = userNumber;
-        this.userID = userID;
-        this.userName = userName;
+    public UserDTO(int userId, String username, String fullname, String password, String email, String phone, String address, String role, Timestamp createdAt) {
+        this.userId = userId;
+        this.username = username;
+        this.fullname = fullname;
         this.password = password;
         this.email = email;
         this.phone = phone;
         this.address = address;
-        this.roleID = roleID;
+        this.role = role;
         this.createdAt = createdAt;
     }
 
-    public UserDTO(String userID, String userName, String email, String phone, String address, String roleID, Timestamp createdAt) {
-        this.userID = userID;
-        this.userName = userName;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.roleID = roleID;
-        this.createdAt = createdAt;
+    public int getUserId() {
+        return userId;
     }
 
-    public UserDTO(String userID, String userName, String password, String email, String phone, String address, String roleID) {
-        this.userID = userID;
-        this.userName = userName;
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
         this.password = password;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.roleID = roleID;
     }
-    
-    
-    // Getters and Setters
-    public int getUserNumber() { return userNumber; }
-    public void setUserNumber(int userNumber) { this.userNumber = userNumber; }
 
-    public String getUserID() { return userID; }
-    public void setUserID(String userID) { this.userID = userID; }
+    public String getEmail() {
+        return email;
+    }
 
-    public String getUserName() { return userName; }
-    public void setUserName(String userName) { this.userName = userName; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public String getPhone() {
+        return phone;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-    public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
+    public String getAddress() {
+        return address;
+    }
 
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-    public String getRoleID() { return roleID; }
-    public void setRoleID(String roleID) { this.roleID = roleID; }
+    public String getRole() {
+        return role;
+    }
 
-    public Timestamp getCreatedAt() { return createdAt; }
-    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
 
     @Override
     public String toString() {
-        return "UserDTO{" +
-                "userNumber=" + userNumber +
-                ", userID='" + userID + '\'' +
-                ", userName='" + userName + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", address='" + address + '\'' +
-                ", roleID='" + roleID + '\'' +
-                ", createdAt=" + createdAt +
-                '}';
+        return "UserDTO{" + "userId=" + userId + ", username=" + username + ", fullname=" + fullname + ", password=" + password + ", email=" + email + ", phone=" + phone + ", address=" + address + ", role=" + role + ", createdAt=" + createdAt + '}';
     }
+
+    
 }

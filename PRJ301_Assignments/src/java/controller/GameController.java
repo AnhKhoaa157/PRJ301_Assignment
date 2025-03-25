@@ -5,13 +5,20 @@
  */
 package controller;
 
+import dao.GameDAO;
+import dto.GameDTO;
+import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import utils.AuthUtils;
 
 /**
  *
@@ -19,30 +26,73 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "GameController", urlPatterns = {"/GameController"})
 public class GameController extends HttpServlet {
+    private static final String LOGIN_PAGE = "login.jsp";
+    private static final String MENU_PAGE = "menu.jsp";
+    private static final String ADMIN_PAGE = "admin.jsp";
+    GameDAO gameDAO = new GameDAO();
+    
+    private String processSearchGames(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = LOGIN_PAGE;
+        HttpSession session = request.getSession();
+        if (AuthUtils.isAdmin(session)) {
+            String searchTerm = request.getParameter("searchTerm");
+            if (searchTerm == null) {
+                searchTerm = "";
+            }
+            url = "admin.jsp?page=searchGame";
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+            List<GameDTO> games = gameDAO.getGameByName(searchTerm);
+            System.out.println("processSearchGames: Found " + (games != null ? games.size() : "null") + " games ");
+            request.setAttribute("games", games);
+            request.setAttribute("searchTerm", searchTerm);
+        } else {
+            response.sendRedirect(LOGIN_PAGE);
+            return null;
+        }
+        return url;
+    }
+    
+    private String processGetAllGames(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = LOGIN_PAGE;
+        HttpSession session = request.getSession();
+        if (AuthUtils.isAdmin(session)) {
+            url = "admin.jsp?page=searchGame";
+            List<GameDTO> games = gameDAO.getAllGames();
+            System.out.println("processGetAllGames: Found " + (games != null ? games.size() : "null") + " games");
+            request.setAttribute("games", games);
+            request.setAttribute("searchTerm", ""); // Giữ searchTerm rỗng
+        } else {
+            response.sendRedirect(LOGIN_PAGE);
+            return null;
+        }
+        return url;
+    }
+        
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet GameController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet GameController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            String url = ADMIN_PAGE;
+        try {
+            String action = request.getParameter("action");
+            String page = request.getParameter("page");
+            System.out.println("Action: " + action + ", Page: " + page);
+            if (action == null || action.isEmpty()) {
+                url = ADMIN_PAGE;
+            } else if(action != null && action.equals("searchGame")){
+                url = processSearchGames(request, response);
+            } else if (page != null && page.equals("searchGame")) { // Xử lý khi vào từ slide bar
+                    url = processGetAllGames(request, response);
+            } else {
+                url = ADMIN_PAGE; // Mặc định về admin.jsp nếu không khớp
+            }
+
+        } catch (Exception e) {
+            log("Error at GameController: " + e.toString());
+        }  finally {
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
         }
     }
 

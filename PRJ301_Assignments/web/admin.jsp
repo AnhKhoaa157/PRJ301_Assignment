@@ -4,169 +4,187 @@
     Author     : LENOVO
 --%>
 
+<%@page import="utils.AuthUtils"%>
+<%@page import="dto.UserDTO"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Admintrators</title>
-        
+        <title>Admin DashBoard</title>
+        <link rel="icon" type="assets/image/jpg" href="<%= request.getContextPath() %>/assets/image/z6344218901443_e4fd8ed41ec42487b1140ea5a3e4832d.jpg">
         <style>
-            /* Search section styles */
-        .search-container {
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            display: none; /* Mặc định ẩn */
-            align-items: center;
-        }
+            html, body {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                width: 100%;
+                font-family: 'Arial', sans-serif;
+            }
 
-        .search-container.active {
-            display: flex; /* Hiện khi có class active */
-        }
+            body {
+                background-image: url('<%= request.getContextPath() %>/assets/image/1551360_2.jpg') !important;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+/*                background: rgba(0, 0, 0, 0.1);*/
+            }
 
-        .search-container form {
-            display: flex;
-            align-items: center;
-            flex-grow: 1;
-        }
-
-        .search-input {
-            flex-grow: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-            margin-right: 10px;
-            transition: border-color 0.3s;
-        }
-
-        .search-input:focus {
-            border-color: #009879;
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(0, 152, 121, 0.2);
-        }
-
-        .search-btn, .toggle-search-btn {
-            background-color: #009879;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 10px 15px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-
-        .search-btn:hover, .toggle-search-btn:hover {
-            background-color: #00806a;
-        }
-        </style> 
-    </head>
-        <body> 
-            <%@include file="header.jsp" %>
-            <div style="min-height: 500px; padding: 10px">
-
-
-                <%                if (session.getAttribute("user") != null) {
-                        UserDTO user = (UserDTO) session.getAttribute("user");
-                %>
-                <% 
-                String searchTerm = request.getAttribute("searchTerm")+"";
-                if (searchTerm == null) searchTerm = "";
-                 %>
-                 <%if(AuthUtils.isAdmin(session)) {%>
-                <!--Search User-->
-                  <!-- Nút mở thanh tìm kiếm -->
-                <button onclick="toggleSearch()" class="toggle-search-btn">Search User</button>
-                
-                <div id="searchContainer" class="search-container">
-                    <form action="MainController">
-                        <input type="hidden" name="action" value="search"/>
-                        <label for="searchInput">Search Users:</label>
-                        <input type="text" id="searchInput" name="searchTerm" value="<%=searchTerm%>" class="search-input" placeholder="Enter UserID , UserName or RoleID..."/>
-                        <input type="submit" value="Search" class="search-btn"/>
-                    </form>
-                </div>
-                <%
-                    if (request.getAttribute("users") != null) {
-                    List<UserDTO> users = (List<UserDTO>) request.getAttribute("users");
-                %>                
-                <table class="user-table">
-                <thead>
-                    <tr>
-                        <th>UserNumber</th>
-                        <th>UserID</th>
-                        <th>UserName</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Address</th>
-                        <th>RoleID</th>
-                        <th>CreatedAt</th>
-                        <% if (AuthUtils.isAdmin(session)) {
-                            %>
-                        <th>Action</th>
-                        <%}%>
-                    </tr>
-                    
-                    <tbody>
-                    <% int count = 1; 
-                       for (UserDTO u : users) { %>
-                        <tr>
-                            <td><%= count++ %></td>
-                            <td><%= u.getUserID() %></td>
-                            <td><%= u.getUserName() %></td>
-                            <td><%= u.getEmail() %></td>
-                            <td><%= u.getPhone() %></td>
-                            <td><%= u.getAddress() %></td>
-                            <td><%= u.getRoleID() %></td>
-                            <td><%= u.getCreatedAt() %></td>
-                            <td>
-                                <a href="MainController?action=deleteUser&userID=<%=u.getUserID()%>">Delete</a> | 
-                                <a href="MainController?action=updateUserForm&userID=<%=u.getUserID()%>">Edit</a>
-                            </td>
-                        </tr>
-                    <% } %>
-            </tbody>
-                </table>
-                <%}%>
-                <div class="searchGame-table">
-
-                </div>
-                <!--Search Game-->
-                <button onclick="toggleSearchGame()" class="toggle-search-btn">Search Games</button>
-                <div id="searchGameContainer" class="search-container">
-                    <form action="MainController">
-                        <input type="hidden" name="action" value="searchGame"/>
-                        <label for="searchInputGame">Search Games:</label>
-                        <input type="text" id="searchInputGame" name="searchTerm" value="<%=searchTerm%>" class="search-input" placeholder="Enter GameID, GameName..."/>
-                        <input type="submit" value="Search" class="search-btn"/>
-                    </form>
-                </div>
-                <% } else { %>
-                    <p>You do not have permission to access this content.</p>
-                <% } %>
-
-                <% } else { %>
-                    <p>You do not have permission to access this content.</p>
-                <% } %>
-        </div>
-        <jsp:include page="footer.jsp"/>
-        <script>
-            function toggleSearch() {
-                var searchContainer = document.getElementById("searchContainer");
-                searchContainer.classList.toggle("active");
+            .admin-container {
+                display: flex;
+                min-height: 100vh;
+                border-radius: 10px;
+                margin: 20px;
             }
             
-            function toggleSearchGame() {
-                var searchGameContainer = document.getElementById("searchGameContainer");
-                searchGameContainer.classList.toggle("active");
+            .main-content-admin {
+                flex: 1;
+                padding: 20px;
+                display: flex;
+                flex-direction: column; /* Chuyển sang column để xếp dọc */
+                background: transparent; /* Đảm bảo trong suốt để thấy hình nền */
+            }
+            
+            h2.welcome-header-admin {
+                color: #2c3e50;
+                border-bottom: 2px solid #3498db;
+                padding-bottom: 10px;
+                margin: 0 0 20px 100px; /* Thêm margin-left: 100px */
+                text-align: center;
+                background: rgba(255, 255, 255, 0.9);
+                padding: 10px;
+                border-radius: 5px;
+                max-width: calc(100% - 120px); /* Giới hạn chiều rộng để không tràn ra ngoài */
             }
 
-        </script>
+            .content-wrapper {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center; /* Căn giữa nội dung chính */
+            }
+
+/* Style cho sidebar từ slidebar.jsp */
+            .sidebar {
+                width: 240px;
+                height: 100vh;
+                background-image: url('<%= request.getContextPath() %>/assets/image/Forza-Horizon-5-Xbox-Game-Studios-2252690.jpg');
+                background-size: cover;
+                background-position: center;
+                padding: 20px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 1000;
+            }
+
+            .sidebar h2 {
+                font-size: 24px;
+                margin-bottom: 20px;
+                color: white;
+            }
+
+            .sidebar ul {
+                list-style: none;
+                padding: 0;
+            }
+
+            .sidebar ul li {
+                margin: 15px 0;
+            }
+
+            .sidebar ul li a {
+                color: white;
+                text-decoration: none;
+                font-size: 18px;
+            }
+
+            .sidebar ul li a:hover {
+                color: #ffcc00;
+            }
+
+
+            .error-permission {
+                background: #ffebee;
+                padding: 20px;
+                border-radius: 5px;
+                color: #c0392b;
+                text-align: center;
+            }
+
+            .error-permission a {
+                color: #2980b9;
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+            .error-permission a:hover {
+                text-decoration: underline;
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        </style>
+    </head>
+    <body> 
+
+
+        <div class="admin-container">
+            <%-- Include Sidebar --%>
+            <%@ include file="slidebar.jsp" %>
+
+            <%-- Nội dung chính --%>
+            <div class="main-content-admin">
+                <% 
+                    UserDTO user = (UserDTO) session.getAttribute("user");
+                    if (user != null && AuthUtils.isAdmin(session)) { 
+                        String fullname = user.getFullname() != null ? user.getFullname() : "Admin";
+                %>
+                    <h2 class="welcome-header-admin">Welcome, <%= fullname %></h2>
+                <% } else { %>
+                    <div class="error-permission">
+                        <p>You do not have permission to access this content.</p>
+                        <a href="login.jsp">Please Login As Admin To Continue</a>
+                    </div>
+                <% 
+                    } 
+                %>
+                <div class="content-wrapper">
+                    <%
+                        String pageParam = request.getParameter("page");
+                        if (pageParam == null) pageParam = "home";
+                        switch (pageParam) {
+                            case "home":
+                    %>
+                                <jsp:include page="adminHome.jsp"/>
+                    <%          break;
+                            case "searchUser":
+                    %>
+                                <jsp:include page="searchUser.jsp"/>
+                    <%          break;
+                            case "searchGame":
+                    %>
+                                <jsp:include page="searchGame.jsp"/>
+                    <%          break;
+                            case "managePosts":
+                    %>
+                                <jsp:include page="managePosts.jsp"/>
+                    <%          break;
+                            case "settings":
+                    %>
+                                <jsp:include page="settings.jsp"/>
+                    <%          break;
+                            default:
+                    %>
+                                <h2>.../h2>
+                    <%      }
+                    %>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
 

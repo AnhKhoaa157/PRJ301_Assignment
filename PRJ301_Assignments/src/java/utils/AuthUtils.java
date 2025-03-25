@@ -46,7 +46,7 @@ public class AuthUtils {
             return false;
         }
         UserDTO user = getUser(session);
-        return user.getRoleID().equals(ADMIN_ROLE);
+        return user.getRole().equals(ADMIN_ROLE);
     }
     
     public static boolean isUser(HttpSession session){
@@ -54,7 +54,7 @@ public class AuthUtils {
             return false;
         }
         UserDTO user = getUser(session);
-        return user.getRoleID().equals(USER_ROLE);
+        return user.getRole().equals(USER_ROLE);
     }
     
     public static boolean isSessionExpired(HttpSession session){
