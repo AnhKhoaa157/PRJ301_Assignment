@@ -171,7 +171,7 @@
                     <%
                         String message = request.getAttribute("message")+"";
                     %>
-                    <%=message.equals("null")?"":message%>
+                    <p style="color: red"><%=message.equals("null")?"":message%></p>
                 </form>
             </div>
         </div>

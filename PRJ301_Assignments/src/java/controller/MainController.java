@@ -28,6 +28,7 @@ public class MainController extends HttpServlet {
     
     private static final String LOGIN_PAGE = "login.jsp";
     private static final String MENU_PAGE = "menu.jsp";
+    private static final String ADMIN_PAGE = "admin.jsp";
     private UserDAO userDAO = new UserDAO(); 
     
     private String processLogin(HttpServletRequest request, HttpServletResponse response)
@@ -44,7 +45,7 @@ public class MainController extends HttpServlet {
 
             // Kiểm tra role để điều hướng
             if (AuthUtils.isAdmin(session)) {
-                url = "admin.jsp";
+                url = ADMIN_PAGE;
             } else {
                 url = "menu.jsp";
             }
@@ -71,7 +72,6 @@ public class MainController extends HttpServlet {
         return url;
     }
     
-        //Need to be fix or wrong logic
     public String processSearch(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = LOGIN_PAGE;
@@ -83,10 +83,30 @@ public class MainController extends HttpServlet {
             } else {
                 searchTerm = searchTerm.trim();
             }
-            url = "admin.jsp";
-            List<UserDTO> user = userDAO.search(searchTerm);
-            request.setAttribute("user", user);
+            url = "admin.jsp?page=searchUser";
+            List<UserDTO> users = userDAO.getUserByName(searchTerm);
+            request.setAttribute("users", users);
             request.setAttribute("searchTerm", searchTerm);
+        } else {
+            response.sendRedirect(LOGIN_PAGE); // Chuyển hướng thay vì chỉ đặt URL
+            return null; // Ngăn code tiếp tục chạy
+        }
+        return url;
+    }
+    
+    private String processGetAllUsers(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = LOGIN_PAGE;
+        HttpSession session = request.getSession();
+        if (AuthUtils.isAdmin(session)) {
+            url = "admin.jsp?page=searchUser";
+            List<UserDTO> users = userDAO.getAllUsers();
+            System.out.println("processGetAllUsers: Found " + (users != null ? users.size() : "null") + " users");
+            request.setAttribute("users", users);
+            request.setAttribute("searchTerm", ""); // Giữ searchTerm rỗng
+        } else {
+            response.sendRedirect(LOGIN_PAGE);
+            return null;
         }
         return url;
     }
@@ -97,16 +117,21 @@ public class MainController extends HttpServlet {
         String url = LOGIN_PAGE;
         try {
             String action = request.getParameter("action");
-            System.out.println("action: "+ action);
-            if (action == null) {
+            String page = request.getParameter("page"); // Lấy tham số page từ URL
+            System.out.println("Action: " + action + ", Page: " + page);
+            if (action == null && page == null) {
                 url = LOGIN_PAGE;
             } else {
-                if (action.equals("login")) {
-                    url = processLogin(request, response);  
-                }else  if (action.equals("logout")) {
+                if ("login".equals(action)) {
+                    url = processLogin(request, response);
+                } else if ("logout".equals(action)) {
                     url = processLogout(request, response);
-                }else  if (action.equals("search")) {
+                } else if ("searchUser".equals(action)) {
                     url = processSearch(request, response);
+                } else if ("searchUser".equals(page)) { // Xử lý khi vào từ slide bar
+                    url = processGetAllUsers(request, response);
+                } else {
+                    url = ADMIN_PAGE; // Mặc định về admin.jsp nếu không khớp
                 }
             }
         } catch (Exception e) {
