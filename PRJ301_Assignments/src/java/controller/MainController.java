@@ -46,12 +46,10 @@ public class MainController extends HttpServlet {
             // Kiểm tra role để điều hướng
             if (AuthUtils.isAdmin(session)) {
                 url = ADMIN_PAGE;
-            } else {
+            } else if(AuthUtils.isUser(session)) {
                 url = "menu.jsp";
-            }
+            } 
 
-            // Gọi search (nếu cần load danh sách dữ liệu sau khi login)
-            processSearch(request, response);
 
         } else {
             request.setAttribute("message", "Incorrect UserID or Password");

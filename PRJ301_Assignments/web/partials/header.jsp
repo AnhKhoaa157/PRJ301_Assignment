@@ -263,7 +263,7 @@
                 <%
                     }
                 %>
-                <button class="cart">
+                <button class="cart" onclick="window.location.href='cart.jsp'">
                     <img src="assets/image/cart-alt-regular-24.png" alt="Cart Game">
                 </button>
             </div>

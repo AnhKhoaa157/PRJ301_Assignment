@@ -45,6 +45,7 @@
                 z-index: 1000; /* Đảm bảo nằm trên các phần tử khác */
                 display: flex;
                 align-items: center;
+                margin-left: 10px;
                 gap: 10px;
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
             }
@@ -109,7 +110,7 @@
             .table-wrapper {
                 overflow-x: auto;
                 max-width: 100%;
-                margin-left: 0;
+                margin-left: 10px;
                 border-radius: 10px;
                 box-shadow: 0 0 20px rgba(0, 204, 255, 0.3);
             }
