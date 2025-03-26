@@ -40,19 +40,21 @@
                 top: 0;
                 left: 290px; /* Đẩy sang phải để tránh slide bar */
                 width: calc(100% - 220px); /* Chiếm toàn bộ chiều rộng còn lại */
-                background: #222; /* Nền để dễ nhìn */
+                background: white; /* Nền để dễ nhìn */
                 padding: 10px;
                 z-index: 1000; /* Đảm bảo nằm trên các phần tử khác */
                 display: flex;
+                margin-left: 12px;
                 align-items: center;
-                margin-left: 10px;
                 gap: 10px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             }
 
             .search-container label {
                 font-size: 16px;
-                color: #00ccff;
+                color: purple;
                 font-weight: bold;
                 text-transform: uppercase;
             }
@@ -62,15 +64,9 @@
                 width: 350px;
                 border: 2px solid #00ccff;
                 border-radius: 5px;
-                background-color: #333;
+                background-color: white;
                 color: #fff;
                 font-size: 14px;
-                transition: border-color 0.3s ease;
-            }
-
-            .search-container input[type="text"]:focus {
-                border-color: #ff00ff;
-                outline: none;
             }
 
             .search-btn {
@@ -80,10 +76,6 @@
                 border: none;
                 border-radius: 5px;
                 cursor: pointer;
-                font-size: 14px;
-                font-weight: bold;
-                text-transform: uppercase;
-                transition: transform 0.2s ease, box-shadow 0.2s ease;
             }
 
             .search-btn:hover {
@@ -109,65 +101,47 @@
         
             .table-wrapper {
                 overflow-x: auto;
-                max-width: 100%;
+                border-radius: 12px;
+                padding: 15px;
                 margin-left: 10px;
-                border-radius: 10px;
-                box-shadow: 0 0 20px rgba(0, 204, 255, 0.3);
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             }
 
             table {
                 width: 100%;
-                border-collapse: separate;
-                border-spacing: 0;
-                background-color: #222;
-                min-width: 800px;
-                color: #fff;
-                font-family: 'Arial', sans-serif;
+                border-collapse: collapse;
+                margin-top: 20px;
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 12px;
+                overflow: hidden;
+                backdrop-filter: blur(10px);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             }
 
             th, td {
                 padding: 15px;
                 text-align: left;
-                border-bottom: 1px solid #444;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+                color: white;
             }
 
             th {
                 background: linear-gradient(90deg, #00ccff, #007bff);
-                color: #fff;
-                font-size: 16px;
-                font-weight: bold;
+                color: white;
                 text-transform: uppercase;
                 letter-spacing: 1px;
-                position: sticky;
-                top: 0;
-                z-index: 10;
             }
 
             td {
-                font-size: 14px;
-                color: #ddd;
+                background-color: rgba(255, 255, 255, 0.1);
+                transition: background 0.3s ease-in-out;
             }
 
-            tr:nth-child(even) {
-                background-color: #2a2a2a;
-            }
-
-            tr:hover {
-                background-color: #333;
-                box-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
-                transition: background-color 0.2s ease, box-shadow 0.2s ease;
-            }
-
-            td:last-child a {
-                color: #00ccff;
-                text-decoration: none;
-                margin-right: 10px;
-                font-weight: bold;
-            }
-
-            td:last-child a:hover {
-                color: #ff00ff;
-                text-shadow: 0 0 5px rgba(255, 0, 255, 0.7);
+            table tr:hover {
+                background-color: rgba(0, 188, 212, 0.3);
+                transform: scale(1.02);
             }
 
             .no-results {

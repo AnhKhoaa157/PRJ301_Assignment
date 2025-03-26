@@ -26,8 +26,15 @@ public class AuthUtils {
 
     public static boolean isValidLogin(String strUserID, String strPassword) {
         UserDTO user = getUser(strUserID);
-        System.out.println(user);
-        return user != null && user.getPassword().equals(strPassword);
+        if (user == null) {
+            System.out.println("User không tồn tại: " + strUserID);
+            return false;
+        }
+        String hashedPassword = PasswordUtils.hashPassword(strPassword);
+        System.out.println("Mat khau nhap: " + strPassword);
+        System.out.println("Mat khau bam: " + hashedPassword);
+        System.out.println("Mat khau trong DB: " + user.getPassword());
+        return hashedPassword != null && hashedPassword.equals(user.getPassword());
     }
 
     public static boolean isLoggedIn(HttpSession session) {

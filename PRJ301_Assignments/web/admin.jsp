@@ -174,7 +174,7 @@
                     <%          break;
                             case "settings":
                     %>
-                                <jsp:include page="settings.jsp"/>
+                                <jsp:include page="setting.jsp"/>
                     <%          break;
                             default:
                     %>

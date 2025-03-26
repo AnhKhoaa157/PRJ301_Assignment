@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.DBUtils;
+import utils.PasswordUtils;
 
 /**
  *
@@ -24,25 +25,32 @@ public class UserDAO implements IDAO<UserDTO, String>{
 
     @Override
     public boolean create(UserDTO entity) {
-        String sql = "INSERT INTO tblUsers (username, password, email, phone, address, role) "
-                   + "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tblUsers (username, password, email, phone, address, role, fullname) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBUtils.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
+            // Băm mật khẩu trước khi lưu
+            String hashedPassword = PasswordUtils.hashPassword(entity.getPassword());
+            if (hashedPassword == null) {
+                throw new SQLException("Failed to hash password");
+            }
+
             ps.setString(1, entity.getUsername());
-            ps.setString(2, entity.getPassword());
+            ps.setString(2, hashedPassword); // Lưu mật khẩu đã băm
             ps.setString(3, entity.getEmail());
             ps.setString(4, entity.getPhone());
             ps.setString(5, entity.getAddress());
             ps.setString(6, entity.getRole());
+            ps.setString(7, entity.getFullname());
 
             int n = ps.executeUpdate();
             return n > 0;
 
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, "Error creating user: " + entity.getUsername(), ex);
+            return false;
         }
-        return false;
     }
 
     @Override
@@ -80,7 +88,10 @@ public class UserDAO implements IDAO<UserDTO, String>{
         String sql = "UPDATE tblUsers SET username=?, fullname=?, password=?, email=?, phone=?, address=?, role=? WHERE user_id=?";
         try (Connection conn = DBUtils.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-
+            String hashedPassword = PasswordUtils.hashPassword(entity.getPassword());
+            if (hashedPassword == null) {
+                throw new SQLException("Failed to hash password");
+            }
             ps.setString(1, entity.getUsername());
             ps.setString(2, entity.getFullname());
             ps.setString(3, entity.getPassword());
