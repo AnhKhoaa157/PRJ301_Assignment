@@ -120,6 +120,20 @@ CREATE TABLE tblWishlists (
     FOREIGN KEY (game_id) REFERENCES tblGames(game_id) ON DELETE CASCADE
 );
 
+CREATE TABLE tblGenres (
+    genre_id INT PRIMARY KEY IDENTITY(1,1),
+    genre_name VARCHAR(50) NOT NULL UNIQUE,
+    created_at DATETIME DEFAULT GETDATE()
+);
+
+CREATE TABLE tblGameGenres (
+    game_id INT,
+    genre_id INT,
+    PRIMARY KEY (game_id, genre_id),
+    FOREIGN KEY (game_id) REFERENCES tblGames(game_id),
+    FOREIGN KEY (genre_id) REFERENCES tblGenres(genre_id)
+);
+
 -- Danh sách Admin
 INSERT INTO tblUsers (fullname, username, password, email, phone, address, role)
 VALUES 
@@ -205,3 +219,64 @@ UPDATE games SET image_url = 'assets/image/Games/Starfield/startfield.jpeg' WHER
 UPDATE games SET image_url = 'assets/image/Games/Baldur''s Gate 3/bardur_gate3.jpeg' WHERE id = 28;
 UPDATE games SET image_url = 'assets/image/Games/Dead Space Remake/DeadSpaceRemake.jpeg' WHERE id = 29;
 UPDATE games SET image_url = 'assets/image/Games/Diablo IV/DiabloIV.jpeg' WHERE id = 30;
+
+ALTER TABLE [dbo].[tblUsers]
+ALTER COLUMN [password] [varchar](250) NOT NULL;
+
+
+
+SELECT genre_name 
+FROM tblGenres;
+
+
+-- Xóa dữ liệu cũ
+DELETE FROM tblGenres;
+
+-- Chèn lại dữ liệu
+INSERT INTO tblGenres (genre_name)
+VALUES 
+    ('Action'),
+    ('RPG'),
+    ('Adventure'),
+    ('Shooter'),
+    ('Action RPG'),
+    ('Action-Adventure'),
+    ('Platformer'),
+    ('Survival Horror'),
+    ('Sandbox'),
+    ('Stealth'),
+    ('Battle Royale'),
+    ('MOBA');
+
+	INSERT INTO tblGameGenres (game_id, genre_id)
+VALUES
+(1, 23),  -- The Witcher 3: Wild Hunt -> RPG (genre_id = 23)
+(2, 26),  -- Cyberpunk 2077 -> Action RPG (genre_id = 26)
+(3, 27),  -- Red Dead Redemption 2 -> Action-Adventure (genre_id = 27)
+(4, 22),  -- God of War -> Action (genre_id = 22)
+(5, 23),  -- Elden Ring -> RPG (genre_id = 23)
+(6, 26),  -- Horizon Zero Dawn -> Action RPG (genre_id = 26)
+(7, 26),  -- Assassin's Creed Valhalla -> Action RPG (genre_id = 26)
+(8, 27),  -- The Legend of Zelda: Breath of the Wild -> Action-Adventure (genre_id = 27)
+(9, 28),  -- Super Mario Odyssey -> Platformer (genre_id = 28)
+(10, 23), -- Dark Souls III -> RPG (genre_id = 23)
+(11, 26), -- Bloodborne -> Action RPG (genre_id = 26)
+(12, 25), -- Doom Eternal -> Shooter (genre_id = 25)
+(13, 29), -- Resident Evil Village -> Survival Horror (genre_id = 29)
+(14, 26), -- Sekiro: Shadows Die Twice -> Action RPG (genre_id = 26)
+(15, 22), -- Ghost of Tsushima -> Action (genre_id = 22)
+(16, 30), -- Minecraft -> Sandbox (genre_id = 30)
+(17, 27), -- Grand Theft Auto V -> Action-Adventure (genre_id = 27)
+(18, 27), -- The Last of Us Part II -> Action-Adventure (genre_id = 27)
+(19, 31), -- Metal Gear Solid V: The Phantom Pain -> Stealth (genre_id = 31)
+(20, 25), -- Overwatch 2 -> Shooter (genre_id = 25)
+(21, 32), -- Fortnite -> Battle Royale (genre_id = 32)
+(22, 33), -- League of Legends -> MOBA (genre_id = 33)
+(23, 25), -- Counter-Strike: Global Offensive -> Shooter (genre_id = 25)
+(24, 33), -- Dota 2 -> MOBA (genre_id = 33)
+(25, 25), -- Valorant -> Shooter (genre_id = 25)
+(26, 25), -- Halo Infinite -> Shooter (genre_id = 25)
+(27, 23), -- Starfield -> RPG (genre_id = 23)
+(28, 23), -- Baldur's Gate 3 -> RPG (genre_id = 23)
+(29, 29), -- Dead Space Remake -> Survival Horror (genre_id = 29)
+(30, 26); -- Diablo IV -> Action RPG (genre_id = 26)

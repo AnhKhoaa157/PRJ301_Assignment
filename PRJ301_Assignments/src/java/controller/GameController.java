@@ -27,45 +27,104 @@ import utils.AuthUtils;
 @WebServlet(name = "GameController", urlPatterns = {"/GameController"})
 public class GameController extends HttpServlet {
     private static final String LOGIN_PAGE = "login.jsp";
-    private static final String MENU_PAGE = "menu.jsp";
     private static final String ADMIN_PAGE = "admin.jsp";
-    GameDAO gameDAO = new GameDAO();
-    
+    private static final String MENU_PAGE = "menu.jsp";
+    private GameDAO gameDAO;
+
+    public GameController() {
+        try {
+            gameDAO = new GameDAO();
+        } catch (Exception e) {
+            log("Error initializing GameDAO: " + e.toString());
+        }
+    }
+
     private String processSearchGames(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = LOGIN_PAGE;
         HttpSession session = request.getSession();
-        if (AuthUtils.isAdmin(session)) {
+        if (session.getAttribute("user") == null) {
+            url = LOGIN_PAGE;
+            request.setAttribute("message", "Vui lòng đăng nhập để tìm kiếm game!");
+        } else {
             String searchTerm = request.getParameter("searchTerm");
             if (searchTerm == null) {
                 searchTerm = "";
             }
-            url = "admin.jsp?page=searchGame";
-
             List<GameDTO> games = gameDAO.getGameByName(searchTerm);
-            System.out.println("processSearchGames: Found " + (games != null ? games.size() : "null") + " games ");
+            System.out.println("processSearchGames: Found " + (games != null ? games.size() : "null") + " games");
             request.setAttribute("games", games);
             request.setAttribute("searchTerm", searchTerm);
-        } else {
-            response.sendRedirect(LOGIN_PAGE);
-            return null;
+            if (AuthUtils.isAdmin(session)) {
+                url = "admin.jsp?page=searchGame";
+            } else {
+                url = MENU_PAGE;
+            }
         }
         return url;
     }
-    
+
+    private String processSearchByGenre(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = LOGIN_PAGE;
+        HttpSession session = request.getSession();
+        if (session.getAttribute("user") == null) {
+            url = LOGIN_PAGE;
+            request.setAttribute("message", "Vui lòng đăng nhập để tìm kiếm game theo thể loại!");
+        } else {
+            String genre = request.getParameter("genre");
+            if (genre == null) {
+                genre = "";
+            }
+            List<GameDTO> games = gameDAO.getGamesByGenre(genre);
+            System.out.println("processSearchByGenre: Found " + (games != null ? games.size() : "null") + " games for genre: " + genre);
+            request.setAttribute("games", games);
+            request.setAttribute("searchTerm", genre);
+            if (AuthUtils.isAdmin(session)) {
+                url = "admin.jsp?page=searchGame";
+            } else {
+                url = MENU_PAGE;
+            }
+        }
+        return url;
+    }
+
     private String processGetAllGames(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = LOGIN_PAGE;
         HttpSession session = request.getSession();
-        if (AuthUtils.isAdmin(session)) {
-            url = "admin.jsp?page=searchGame";
+        if (session.getAttribute("user") == null) {
+            url = LOGIN_PAGE;
+            request.setAttribute("message", "Vui lòng đăng nhập để xem danh sách game!");
+        } else {
             List<GameDTO> games = gameDAO.getAllGames();
             System.out.println("processGetAllGames: Found " + (games != null ? games.size() : "null") + " games");
             request.setAttribute("games", games);
-            request.setAttribute("searchTerm", ""); // Giữ searchTerm rỗng
+            request.setAttribute("searchTerm", "");
+            if (AuthUtils.isAdmin(session)) {
+                url = "admin.jsp?page=searchGame";
+            } else {
+                url = MENU_PAGE;
+            }
+        }
+        return url;
+    }
+
+    private String processListGenres(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = LOGIN_PAGE;
+        HttpSession session = request.getSession();
+        if (session.getAttribute("user") == null) {
+            url = LOGIN_PAGE;
+            request.setAttribute("message", "Vui lòng đăng nhập để xem danh sách thể loại!");
         } else {
-            response.sendRedirect(LOGIN_PAGE);
-            return null;
+            if (gameDAO == null) {
+                throw new ServletException("GameDAO is not initialized");
+            }
+            List<String> genres = gameDAO.getAllGenres();
+            System.out.println("processListGenres: Found " + (genres != null ? genres.size() : "null") + " genres");
+            request.setAttribute("genres", genres);
+            url = "genreList.jsp";
         }
         return url;
     }
@@ -77,17 +136,21 @@ public class GameController extends HttpServlet {
         try {
             String action = request.getParameter("action");
             String page = request.getParameter("page");
-            System.out.println("Action: " + action + ", Page: " + page);
+            String genre = request.getParameter("genre");
+            System.out.println("Action: " + action + ", Page: " + page + ", Genre: " + genre);
+
             if (action == null && page == null) {
-                url = LOGIN_PAGE;
+                url = processGetAllGames(request, response);
+            } else if ("searchGame".equals(action) && genre != null && !genre.isEmpty()) {
+                url = processSearchByGenre(request, response);
+            } else if ("searchGame".equals(action)) {
+                url = processSearchGames(request, response);
+            } else if ("searchGame".equals(page)) {
+                url = processGetAllGames(request, response);
+            } else if ("listGenres".equals(action)) {
+                url = processListGenres(request, response);
             } else {
-                if ("searchGame".equals(action)) {
-                    url = processSearchGames(request, response);
-                } else if ("searchGame".equals(page)) {
-                    url = processGetAllGames(request, response);
-                } else {
-                    url = ADMIN_PAGE; // Mặc định về admin.jsp nếu không khớp
-                }
+                url = MENU_PAGE;
             }
 
         } catch (Exception e) {

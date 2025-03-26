@@ -71,6 +71,7 @@
                 <h2>Admin DashBoard</h2>
             <ul>
                 <li><a href="admin.jsp">Trang Chủ</a></li>
+                <li><a href="index.jsp">Trang Chính</a></li>
                 <li><a href="MainController?page=searchUser">🔍 Tìm kiếm User</a></li>
                 <li><a href="GameController?page=searchGame">🎮 Tìm kiếm Game</a></li>
                 <li><a href="admin.jsp?page=manageCart">📝 Quản lý Mua Hàng</a></li>

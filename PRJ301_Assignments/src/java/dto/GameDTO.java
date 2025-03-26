@@ -8,6 +8,7 @@ package dto;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  *
@@ -19,6 +20,7 @@ public class GameDTO {
     private BigDecimal price;
     private Date releaseDate;
     private String genre;
+    private List<String> genres;
     private String platform;
     private String description;
     private int stock;
@@ -29,12 +31,12 @@ public class GameDTO {
     public GameDTO() {
     }
 
-    public GameDTO(int gameId, String gameName, BigDecimal price, Date releaseDate, String genre, String platform, String description, int stock, String imageUrl, Timestamp createdAt, Timestamp updatedAt) {
+    public GameDTO(int gameId, String gameName, BigDecimal price, Date releaseDate, List<String> genres, String platform, String description, int stock, String imageUrl, Timestamp createdAt, Timestamp updatedAt) {
         this.gameId = gameId;
         this.gameName = gameName;
         this.price = price;
         this.releaseDate = releaseDate;
-        this.genre = genre;
+        this.genres = genres;
         this.platform = platform;
         this.description = description;
         this.stock = stock;
@@ -75,12 +77,12 @@ public class GameDTO {
         this.releaseDate = releaseDate;
     }
 
-    public String getGenre() {
-        return genre;
+    public List<String> getGenres() {
+        return genres;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setGenres(List<String> genres) {
+        this.genres = genres;
     }
 
     public String getPlatform() {
@@ -131,6 +133,7 @@ public class GameDTO {
         this.updatedAt = updatedAt;
     }
 
+    
     
     
 }

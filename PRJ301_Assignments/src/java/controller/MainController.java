@@ -29,6 +29,7 @@ public class MainController extends HttpServlet {
     private static final String LOGIN_PAGE = "login.jsp";
     private static final String MENU_PAGE = "menu.jsp";
     private static final String ADMIN_PAGE = "admin.jsp";
+    private static final String MAIN_PAGE = "index.jsp";
     private UserDAO userDAO = new UserDAO(); 
     
     private String processLogin(HttpServletRequest request, HttpServletResponse response)
@@ -47,7 +48,7 @@ public class MainController extends HttpServlet {
             if (AuthUtils.isAdmin(session)) {
                 url = ADMIN_PAGE;
             } else if(AuthUtils.isUser(session)) {
-                url = "menu.jsp";
+                url = MAIN_PAGE;
             } 
 
 

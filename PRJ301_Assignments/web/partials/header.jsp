@@ -42,7 +42,7 @@
     }
 
     /* CONTAINER */
-    .container {
+    .header-container {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -214,16 +214,16 @@
     <%
         int x = 100;
     %>
-    <div class="container">
-               <a href="#" class="logo">
+    <div class="header-container">
+               <a href="<%= request.getContextPath() %>/index.jsp" class="logo">
                 <img src="assets/image/z6344218901443_e4fd8ed41ec42487b1140ea5a3e4832d.jpg" alt="The Best Game Online">
                 <p class="Banner">The Best <span> Game Online </span></p>
                 </a>
             <ul class="menu">
-                <li class="menu-item"><a href="menu.jsp">Trang Chủ</a></li>
-                <li class="menu-item"><a href="#">Sản phẩm</a></li>
-                <li class="menu-item"><a href="#">Thể loại</a></li>
-                <li class="menu-item"><a href="#">Liên hệ</a></li>
+                <li class="menu-item"><a href="<%= request.getContextPath() %>/index.jsp">Trang Chủ</a></li>
+                <li class="menu-item"><a href="<%= request.getContextPath() %>/menu.jsp">Sản phẩm</a></li>
+                <li class="menu-item"><a href="<%= request.getContextPath() %>/GameController?action=listGenres"">Thể loại</a></li>
+                <li class="menu-item"><a href="<%= request.getContextPath() %>/contact.jsp">Liên hệ</a></li>
             </ul>
             <%  if (AuthUtils.isLoggedIn(session)) {
                 UserDTO userHeader = AuthUtils.getUser(session);
@@ -235,7 +235,7 @@
                     <img src='assets/image/search-alt-2-regular-24.png' alt="search-icon"/>
                 </i>
                 <div class="search-box">
-                    <form action="search.jsp" method="GET">
+                    <form action="GameController?action=searchGame&gameName=?" method="GET">
                         <input type="text" name="keyword" placeholder="Tìm kiếm..." required />
                         <button type="submit" style="display: none;"></button>
                     </form>

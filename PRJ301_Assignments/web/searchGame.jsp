@@ -14,20 +14,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <style> 
-            html, body {
+            body {
+                font-family: Arial, sans-serif;
+                background: url('assets/image/1551360_383.jpg') no-repeat center center fixed;
+                background-size: cover;
                 margin: 0;
                 padding: 0;
-                height: 100%;
-                width: 100%;
-                font-family: 'Arial', sans-serif;
-            }
-            
-            body {
-                background-image: url('<%= request.getContextPath() %>/assets/image/1551360_2.jpg');
-                background-size: 100% auto;
-                background-position: center top;
-                background-repeat: repeat-y;
-                min-height: 100vh;
             }
 
             .main-content {
@@ -39,19 +31,21 @@
                 top: 0;
                 left: 290px; /* Đẩy sang phải để tránh slide bar */
                 width: calc(100% - 220px); /* Chiếm toàn bộ chiều rộng còn lại */
-                background: #222; /* Nền để dễ nhìn */
+                background: white; /* Nền để dễ nhìn */
                 padding: 10px;
                 z-index: 1000; /* Đảm bảo nằm trên các phần tử khác */
                 display: flex;
-                margin-left: 10px;
+                margin-left: 12px;
                 align-items: center;
                 gap: 10px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             }
 
             .search-container label {
                 font-size: 16px;
-                color: #00ccff;
+                color: purple;
                 font-weight: bold;
                 text-transform: uppercase;
             }
@@ -61,7 +55,7 @@
                 width: 350px;
                 border: 2px solid #00ccff;
                 border-radius: 5px;
-                background-color: #333;
+                background-color: white;
                 color: #fff;
                 font-size: 14px;
             }
@@ -91,56 +85,83 @@
                 padding: 5px 0;
             }
             
+            .custom-link {
+                color: #00ccff;
+                font-weight: bold;
+                text-decoration: none;
+                padding: 5px 12px;
+                border-radius: 8px;
+                transition: 0.3s;
+            }
+
+            .custom-link:hover {
+                color: #ff00ff;
+                text-shadow: 0 0 12px rgba(255, 0, 255, 0.8);
+            }
+
+            /* Cải tiến nút Edit/Delete */
+            .action-btn {
+                display: inline-block;
+                padding: 10px 15px;
+                margin: 5px;
+                border-radius: 8px;
+                text-decoration: none;
+                font-weight: bold;
+                text-align: center;
+                background: linear-gradient(90deg, #00ccff, #ff00ff);
+                color: white;
+                transition: 0.3s;
+                box-shadow: 0 4px 8px rgba(0, 204, 255, 0.5);
+            }
+
+            .action-btn:hover {
+                transform: scale(1.1);
+                box-shadow: 0 0 15px rgba(0, 204, 255, 0.8);
+            }
+            
             .table-wrapper {
                 overflow-x: auto;
-                max-width: 100%;
-                border-radius: 10px;
+                border-radius: 12px;
+                padding: 15px;
                 margin-left: 10px;
-                box-shadow: 0 0 20px rgba(0, 204, 255, 0.3);
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             }
 
             table {
                 width: 100%;
-                border-collapse: separate;
-                border-spacing: 0;
-                background-color: #222;
-                min-width: 800px;
-                color: #fff;
+                border-collapse: collapse;
+                margin-top: 20px;
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 12px;
+                overflow: hidden;
+                backdrop-filter: blur(10px);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             }
 
             th, td {
                 padding: 15px;
                 text-align: left;
-                border-bottom: 1px solid #444;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+                color: white;
             }
 
             th {
                 background: linear-gradient(90deg, #00ccff, #007bff);
-                color: #fff;
-                font-size: 16px;
-                font-weight: bold;
+                color: white;
                 text-transform: uppercase;
+                letter-spacing: 1px;
             }
 
             td {
-                font-size: 14px;
-                color: #ddd;
+                background-color: rgba(255, 255, 255, 0.1);
+                transition: background 0.3s ease-in-out;
             }
 
-            tr:nth-child(even) {
-                background-color: #2a2a2a;
-            }
-
-            tr:hover {
-                background-color: #333;
-                box-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
-            }
-
-            td:last-child a {
-                color: #00ccff;
-                text-decoration: none;
-                margin-right: 10px;
-                font-weight: bold;
+            table tr:hover {
+                background-color: rgba(0, 188, 212, 0.3);
+                transform: scale(1.02);
             }
 
             .no-results {
@@ -212,7 +233,28 @@
                                         <td><%= g.getGameName() %></td>
                                         <td><%= g.getPrice() %></td>
                                         <td><%= g.getReleaseDate() %></td>
-                                        <td><%= g.getGenre() %></td>
+                                        <td>
+                                            <% 
+                                                List<String> genres = g.getGenres();
+                                                if (genres != null && !genres.isEmpty()) {
+                                                    for (int i = 0; i < genres.size(); i++) {
+                                                        String genre = genres.get(i);
+                                            %>
+                                            <a href="<%= request.getContextPath() %>/GameController?action=searchGame&genre=<%= genre %>" class="genre-link">
+                                                <%= genre %>
+                                            </a>
+                                            <% 
+                                                if (i < genres.size() - 1) { 
+                                                    out.print(", "); 
+                                                } 
+                                            %>
+                                            <% 
+                                                }
+                                                } else { 
+                                                    out.print("N/A"); 
+                                                } 
+                                            %>
+                                        </td>
                                         <td><%= g.getPlatform() %></td>
                                         <td><%= g.getDescription() %></td>
                                         <td><%= g.getStock() %></td>
@@ -221,8 +263,8 @@
                                         <td><%= g.getUpdatedAt() %></td>
                                         <td>
                                             <a href="<%= request.getContextPath() %>/GameController?action=deleteGame&gameId=<%= g.getGameName()%>" 
-                                               onclick="return confirm('Bạn có chắc muốn xóa game này?')">Delete</a> |
-                                            <a href="<%= request.getContextPath() %>/GameController?action=updateGameForm&gameId=<%= g.getGameName()%>">Edit</a>
+                                               onclick="return confirm('Bạn có chắc muốn xóa game này?')" class="action-btn">Delete</a> |
+                                            <a href="<%= request.getContextPath() %>/GameController?action=updateGameForm&gameId=<%= g.getGameName()%>" class="action-btn">Edit</a>
                                         </td>
                                     </tr>
                                     <% } %>

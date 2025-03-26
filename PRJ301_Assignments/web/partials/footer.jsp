@@ -29,9 +29,12 @@
     }
 
     .footer-section p {
-        margin-bottom: 0.5rem;
-        font-size: 0.9rem;
-        line-height: 1.5;
+        font-size: 16px;
+        color: #ffffff;
+        background: rgba(0, 0, 0, 0.1); /* Nền mờ */
+        padding: 10px;
+        border-radius: 10px; /* Bo góc */
+        box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1); /* Đổ bóng nhẹ */
     }
 
     .footer-links {
@@ -77,7 +80,8 @@
     <div class="footer-container">
         <div class="footer-section">
             <h3>Về chúng tôi</h3>
-            <p>Shop Online là điểm đến tin cậy cho những sản phẩm chất lượng với giá cả hợp lý. Chúng tôi cam kết mang đến trải nghiệm mua sắm tốt nhất cho khách hàng.</p>
+            <p><span style="color: yellowgreen">TheBestGameOnline</span> là điểm đến lý tưởng dành cho game thủ, chuyên cung cấp game bản quyền với giá cạnh tranh. Chúng tôi cam kết mang đến trải nghiệm mua sắm an toàn, nhanh chóng và tiện lợi.</p>
+            <p>Với kho game phong phú từ nhiều thể loại, từ hành động, phiêu lưu đến chiến thuật và nhập vai, TheBestGameOnline luôn sẵn sàng đáp ứng mọi nhu cầu giải trí của bạn.</p>
         </div>
         
         <div class="footer-section">

@@ -45,23 +45,30 @@ public class PasswordUtils {
 
     public static void migratePasswords() {
         UserDAO dao = new UserDAO();
-        List<UserDTO> users = dao.readAll(); // Giả sử có phương thức để đọc tất cả người dùng
-
-        for (UserDTO user : users) {
-            // Lấy mật khẩu hiện tại (không mã hóa)
-            String plainPassword = user.getPassword();
-
-            // Mã hóa mật khẩu với MD5
-            String hashedPassword = PasswordUtils.hashPassword(plainPassword);
-
-            // Cập nhật mật khẩu mới
-            user.setPassword(hashedPassword);
-
-            // Lưu vào cơ sở dữ liệu
-            dao.update(user); // Giả sử có phương thức update
+        List<UserDTO> users = dao.readAll();
+        if (users == null || users.isEmpty()) {
+            System.out.println("Không có người dùng nào để di chuyển.");
+            return;
         }
 
-        System.out.println("Di chuyển mật khẩu sang MD5 hoàn tất");
+        for (UserDTO user : users) {
+            String plainPassword = user.getPassword();
+            // Kiểm tra xem mật khẩu đã băm chưa (SHA-256 tạo chuỗi 64 ký tự hex)
+            if (plainPassword == null || plainPassword.length() == 64) {
+                System.out.println("Mật khẩu của " + user.getUsername() + " đã băm hoặc trống, bỏ qua.");
+                continue;
+            }
+
+            String hashedPassword = PasswordUtils.hashPassword(plainPassword);
+            if (hashedPassword != null) {
+                user.setPassword(hashedPassword);
+                boolean updated = dao.update(user);
+                System.out.println("Cập nhật user " + user.getUsername() + ": " + (updated ? "Thành công" : "Thất bại"));
+            } else {
+                System.out.println("Lỗi mã hóa mật khẩu cho user: " + user.getUsername());
+            }
+        }
+        System.out.println("Di chuyển mật khẩu sang SHA-256 hoàn tất");
     }
     
     public static void main(String[] args) {
