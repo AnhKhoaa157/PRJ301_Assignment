@@ -50,8 +50,6 @@ public class MainController extends HttpServlet {
             } else if(AuthUtils.isUser(session)) {
                 url = MAIN_PAGE;
             } 
-
-
         } else {
             request.setAttribute("message", "Incorrect UserID or Password");
             url = "login.jsp";

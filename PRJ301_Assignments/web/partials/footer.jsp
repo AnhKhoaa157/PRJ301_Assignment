@@ -81,7 +81,6 @@
         <div class="footer-section">
             <h3>Về chúng tôi</h3>
             <p><span style="color: yellowgreen">TheBestGameOnline</span> là điểm đến lý tưởng dành cho game thủ, chuyên cung cấp game bản quyền với giá cạnh tranh. Chúng tôi cam kết mang đến trải nghiệm mua sắm an toàn, nhanh chóng và tiện lợi.</p>
-            <p>Với kho game phong phú từ nhiều thể loại, từ hành động, phiêu lưu đến chiến thuật và nhập vai, TheBestGameOnline luôn sẵn sàng đáp ứng mọi nhu cầu giải trí của bạn.</p>
         </div>
         
         <div class="footer-section">
@@ -113,6 +112,6 @@
     </div>
     
     <div class="copyright">
-        <p>&copy; 2024 Shop Online. Tất cả quyền được bảo lưu.</p>
+        <p>&copy; 2025 Shop Game Online. Tất cả quyền được bảo lưu.</p>
     </div>
 </footer>

@@ -93,6 +93,7 @@
 
     .menu-item a:hover {
         color: #a0d2eb;
+        font-size: 24px;
     }
 
     /* RIGHT SECTION */
@@ -153,7 +154,6 @@
         height: 30px;
     }
 
-    /* USER SECTION */
     .user-section {
         display: flex;
         align-items: center;
@@ -180,7 +180,7 @@
         background-color: blue;
         transition-duration:  0.5s;
     }
-    /* RESPONSIVE */
+
     @media (max-width: 768px) {
         .header {
             flex-direction: column;

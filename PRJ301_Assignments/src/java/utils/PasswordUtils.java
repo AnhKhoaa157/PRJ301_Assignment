@@ -21,7 +21,7 @@ public class PasswordUtils {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
 
             // Mã hóa mật khẩu
-            byte[] messageDigest = md.digest(plainPassword.getBytes());
+            byte[] messageDigest = md.digest(plainPassword.getBytes("UTF-8"));
 
             // Chuyển byte[] thành chuỗi hex
             StringBuilder hexString = new StringBuilder();

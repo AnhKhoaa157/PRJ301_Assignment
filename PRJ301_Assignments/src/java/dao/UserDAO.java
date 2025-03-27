@@ -110,12 +110,12 @@ public class UserDAO implements IDAO<UserDTO, String>{
 
 
     @Override
-    public boolean delete(String userName) {
-        String sql = "DELETE FROM tblUsers WHERE userName = ?";
+    public boolean delete(String userID) {
+        String sql = "DELETE FROM tblUsers WHERE user_id = ?";
         try (Connection conn = DBUtils.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, userName);
+            ps.setString(1, userID);
             return ps.executeUpdate() > 0;
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
