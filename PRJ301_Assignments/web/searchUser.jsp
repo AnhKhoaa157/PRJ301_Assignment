@@ -22,27 +22,37 @@
                 font-family: 'Arial', sans-serif;
             }
             
+            body {
+                font-family: Arial, sans-serif;
+                background: url('assets/image/1551360_383.jpg') no-repeat center center fixed;
+                background-size: cover;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .search-user-content{
+                background-color: rgba(0, 0, 0, 0.6);
+            }
+            
             .main-content {
-                margin-left: 220px; /* Đẩy nội dung sang phải, lớn hơn chiều rộng slide bar */
-                padding: 20px; /* Thêm padding cho đẹp */
+                margin-left: 220px; 
+                padding: 20px; 
             }
             
             body {
-                background-image: url('<%= request.getContextPath() %>/assets/image/1551360_2.jpg') !important;
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
-/*                background: rgba(0, 0, 0, 0.1);*/
+
             }
             
-            /* Style từ searchUser.jsp, lược bỏ .container và .main-content */
             .search-container {
                 top: 0;
-                left: 290px; /* Đẩy sang phải để tránh slide bar */
-                width: calc(100% - 220px); /* Chiếm toàn bộ chiều rộng còn lại */
-                background: white; /* Nền để dễ nhìn */
+                left: 290px; 
+                width: calc(100% - 220px); 
+                background: white; 
                 padding: 10px;
-                z-index: 1000; /* Đảm bảo nằm trên các phần tử khác */
+                z-index: 1000; 
                 display: flex;
                 margin-left: 12px;
                 align-items: center;
@@ -54,7 +64,7 @@
 
             .search-container label {
                 font-size: 16px;
-                color: purple;
+                color: wheat;
                 font-weight: bold;
                 text-transform: uppercase;
             }
@@ -65,7 +75,7 @@
                 border: 2px solid #00ccff;
                 border-radius: 5px;
                 background-color: white;
-                color: #fff;
+                color: #000;
                 font-size: 14px;
             }
 
@@ -119,7 +129,26 @@
                 backdrop-filter: blur(10px);
                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             }
+            
+            .action-btn {
+                display: inline-block;
+                padding: 10px 15px;
+                margin: 5px;
+                border-radius: 8px;
+                text-decoration: none;
+                font-weight: bold;
+                text-align: center;
+                background: linear-gradient(90deg, #00ccff, #ff00ff);
+                color: white;
+                transition: 0.3s;
+                box-shadow: 0 4px 8px rgba(0, 204, 255, 0.5);
+            }
 
+            .action-btn:hover {
+                transform: scale(1.1);
+                box-shadow: 0 0 15px rgba(0, 204, 255, 0.8);
+            }
+            
             th, td {
                 padding: 15px;
                 text-align: left;
@@ -133,7 +162,23 @@
                 text-transform: uppercase;
                 letter-spacing: 1px;
             }
-
+            
+            td {
+                color: wheat;
+                font-weight: bold;
+            }
+            
+            td a{
+                text-decoration: none;
+                color: black;
+                font-weight: bold;
+            }
+            
+            td a:hover{
+                color: pink;
+                transition-duration: 0.3s;
+            }
+            
             td {
                 background-color: rgba(255, 255, 255, 0.1);
                 transition: background 0.3s ease-in-out;
@@ -209,8 +254,8 @@
                                         <td><%= u.getCreatedAt() %></td>
                                         <td>
                                             <a href="<%= request.getContextPath() %>/UserController?action=deleteUser&userID=<%= u.getUserId() %>" 
-                                               onclick="return confirm('Bạn có chắc muốn xóa user này?')">Delete</a> |
-                                            <a href="<%= request.getContextPath() %>/UserController?action=updateUserForm&userID=<%= u.getUserId() %>">Edit</a>
+                                               onclick="return confirm('Bạn có chắc muốn xóa user này?')" class="action-btn">Delete</a> |
+                                               <a href="<%= request.getContextPath() %>/UserController?action=updateUserForm&userID=<%= u.getUserId() %>" class="action-btn">Edit</a>
                                         </td>
                                     </tr>
                                     <% } %>

@@ -45,8 +45,17 @@ public class GameDAO implements IDAO<GameDTO, String>{
     }
 
     @Override
-    public boolean delete(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean delete(String gameID) {
+        String sql = "DELETE FROM tblGames WHERE game_id = ?";
+        try (Connection conn = DBUtils.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, gameID);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(GameDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
     @Override
@@ -269,6 +278,50 @@ public class GameDAO implements IDAO<GameDTO, String>{
             ps.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+    
+    public boolean deleteGame(int gameID) {
+        String sql = "DELETE FROM tblGames WHERE game_id = ?";
+        String sqlGenre = "DELETE FROM tblgamegenres WHERE game_id = ?";
+        try {
+            Connection conn = DBUtils.getConnection();
+            conn.setAutoCommit(false);
+            PreparedStatement ps = conn.prepareStatement(sqlGenre);
+            ps.setInt(1, gameID);
+            ps.executeUpdate();
+            
+            PreparedStatement ps2 = conn.prepareStatement(sql);
+            ps2.setInt(1, gameID);
+            int n = ps2.executeUpdate();
+            return n > 0;
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(GameDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public boolean updateGame(GameDTO game) {
+        String sql = "UPDATE tblGames SET game_name = ?, price = ?, release_date = ?, platform = ?, " +
+                     "description = ?, stock = ?, image_url = ?, updated_at = GETDATE() " +
+                     "WHERE game_id = ?";
+        
+        try (Connection conn = DBUtils.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, game.getGameName());
+            ps.setBigDecimal(2, game.getPrice());
+            ps.setDate(3, new java.sql.Date(game.getReleaseDate().getTime()));
+            ps.setString(4, game.getPlatform());
+            ps.setString(5, game.getDescription());
+            ps.setInt(6, game.getStock());
+            ps.setString(7, game.getImageUrl());
+            ps.setInt(8, game.getGameId());
+            
+            int n = ps.executeUpdate();
+            return n > 0;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace(); // Nên thay bằng logging trong thực tế
+            return false;
         }
     }
 }

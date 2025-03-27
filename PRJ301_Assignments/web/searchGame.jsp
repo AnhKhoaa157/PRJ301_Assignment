@@ -21,10 +21,14 @@
                 margin: 0;
                 padding: 0;
             }
-
+            
+            .search-game-content{
+                background-color: rgba(0, 0, 0, 0.6);               
+            }
+            
             .main-content {
-                margin-left: 220px; /* Đẩy nội dung sang phải, lớn hơn chiều rộng slide bar */
-                padding: 20px; /* Thêm padding cho đẹp */
+                margin-left: 220px; 
+                padding: 20px;
             }
 
             .search-container {
@@ -45,7 +49,7 @@
 
             .search-container label {
                 font-size: 16px;
-                color: purple;
+                color: wheat;
                 font-weight: bold;
                 text-transform: uppercase;
             }
@@ -56,7 +60,7 @@
                 border: 2px solid #00ccff;
                 border-radius: 5px;
                 background-color: white;
-                color: #fff;
+                color: #000;
                 font-size: 14px;
             }
 
@@ -99,7 +103,6 @@
                 text-shadow: 0 0 12px rgba(255, 0, 255, 0.8);
             }
 
-            /* Cải tiến nút Edit/Delete */
             .action-btn {
                 display: inline-block;
                 padding: 10px 15px;
@@ -146,7 +149,23 @@
                 border-bottom: 1px solid rgba(255, 255, 255, 0.3);
                 color: white;
             }
-
+            
+            td {
+                color: wheat;
+                font-weight: bold;
+            }
+            
+            td a{
+                text-decoration: none;
+                color: wheat;
+                font-weight: bold;
+            }
+            
+            td a:hover{
+                color: purple;
+                transition-duration: 0.3s;
+            }
+            
             th {
                 background: linear-gradient(90deg, #00ccff, #007bff);
                 color: white;
@@ -262,9 +281,7 @@
                                         <td><%= g.getCreatedAt() %></td>
                                         <td><%= g.getUpdatedAt() %></td>
                                         <td>
-                                            <a href="<%= request.getContextPath() %>/GameController?action=deleteGame&gameId=<%= g.getGameName()%>" 
-                                               onclick="return confirm('Bạn có chắc muốn xóa game này?')" class="action-btn">Delete</a> |
-                                            <a href="<%= request.getContextPath() %>/GameController?action=updateGameForm&gameId=<%= g.getGameName()%>" class="action-btn">Edit</a>
+                                            <a href="GameController?action=editGame&gameId=<%=g.getGameId() %>" class="action-btn">Chỉnh sửa</a>
                                         </td>
                                     </tr>
                                     <% } %>

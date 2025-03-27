@@ -10,6 +10,8 @@ import dto.GameDTO;
 import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -29,6 +31,8 @@ public class GameController extends HttpServlet {
     private static final String LOGIN_PAGE = "login.jsp";
     private static final String ADMIN_PAGE = "admin.jsp";
     private static final String MENU_PAGE = "menu.jsp";
+    private static final String SEARCHGAME_PAGE = "GameController?page=searchGame";
+    private static final String EDITGAME_PAGE = "editGame.jsp";
     private GameDAO gameDAO;
 
     public GameController() {
@@ -38,7 +42,7 @@ public class GameController extends HttpServlet {
             log("Error initializing GameDAO: " + e.toString());
         }
     }
-
+        
     private String processSearchGames(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = LOGIN_PAGE;
@@ -128,7 +132,78 @@ public class GameController extends HttpServlet {
         }
         return url;
     }
-        
+    
+    private String processEditGame(HttpServletRequest request, HttpServletResponse response) {
+        String gameIdStr = request.getParameter("gameId");
+        String url = EDITGAME_PAGE;
+
+        try {
+            int gameId = Integer.parseInt(gameIdStr);
+            if (gameId <= 0) {
+                request.setAttribute("error", "Game ID phải là số dương!");
+                url = SEARCHGAME_PAGE;
+            } else {
+                GameDTO game = gameDAO.getGameById(gameId);
+                if (game != null) {
+                    request.setAttribute("game", game);
+                } else {
+                    request.setAttribute("error", "Không tìm thấy game!");
+                    url = SEARCHGAME_PAGE;
+                }
+            }
+        } catch (NumberFormatException e) {
+            request.setAttribute("error", "Game ID không hợp lệ!");
+            url = SEARCHGAME_PAGE;
+        }
+        return url;
+    }
+    
+    private String processUpdateGameForm(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = SEARCHGAME_PAGE;
+        String gameIdStr = request.getParameter("gameId");
+        String gameName = request.getParameter("gameName");
+        String priceStr = request.getParameter("price");
+        String releaseDateStr = request.getParameter("releaseDate");
+        String platform = request.getParameter("platform");
+        String description = request.getParameter("description");
+        String stockStr = request.getParameter("stock");
+        String imageUrl = request.getParameter("imageUrl");
+
+
+        try {
+            int gameId = Integer.parseInt(gameIdStr);
+            BigDecimal price = new BigDecimal(priceStr);
+            int stock = Integer.parseInt(stockStr);
+            Date releaseDate = Date.valueOf(releaseDateStr);
+
+            GameDTO game = gameDAO.getGameById(gameId);
+            if (game != null) {
+                game.setGameName(gameName);
+                game.setPrice(price);
+                game.setReleaseDate(releaseDate);
+                game.setPlatform(platform);
+                game.setDescription(description);
+                game.setStock(stock);
+                game.setImageUrl(imageUrl);
+
+                boolean updated = gameDAO.updateGame(game);
+                if (updated) {
+                    request.setAttribute("message", "Cập nhật game thành công!");
+                } else {
+                    request.setAttribute("error", "Cập nhật game thất bại!");
+                }
+            } else {
+                request.setAttribute("error", "Không tìm thấy game!");
+            }
+        } catch (NumberFormatException e) {
+            request.setAttribute("error", "Dữ liệu số không hợp lệ!");
+        } catch (IllegalArgumentException e) {
+            request.setAttribute("error", "Ngày không hợp lệ!");
+        }
+        return url;
+    }
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -149,6 +224,10 @@ public class GameController extends HttpServlet {
                 url = processGetAllGames(request, response);
             } else if ("listGenres".equals(action)) {
                 url = processListGenres(request, response);
+            } else if ("editGame".equals(action)){
+                url = processEditGame(request, response);
+            } else if("updateGame".equals(action)){
+                url = processUpdateGameForm(request, response);
             } else {
                 url = MENU_PAGE;
             }

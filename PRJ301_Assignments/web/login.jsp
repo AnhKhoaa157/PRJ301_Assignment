@@ -163,7 +163,7 @@
 
                     <button type="submit" class="submit-btn">Đăng nhập</button>
                     <h3 style="color: white">
-                        <a href="registers.jsp">Register</a> / <a href="#">Forgot Password?</a>
+                        <a href="registers.jsp">Register</a> / <a href="forgotPassword.jsp">Forgot Password?</a>
                     </h3>
                     <h4 style="color: white">
                         Back to <a href="index.jsp">Menu</a>  / Use as <a href="menu.jsp">Guest</a>

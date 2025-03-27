@@ -14,27 +14,21 @@
                 padding: 0;
                 background-color: #f4f4f4;
             }
-            .nav-bar {
-                background-color: #333;
-                padding: 10px 0;
-            }
-            .nav-bar ul {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                text-align: center;
-            }
-            .nav-bar ul li {
-                display: inline;
-                margin-right: 20px;
-            }
-            .nav-bar ul li a {
-                color: white;
+            
+            .back-link {
                 text-decoration: none;
-                font-size: 16px;
+                margin-top: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                background-color: black;
+                border-radius: 10px;
+                color: white;
+                font-size: 24px;
+                padding: 10px;
             }
-            .nav-bar ul li a:hover {
-                color: #ffcc00;
+            
+            .back-link:hover{
+                color: red;
+                font-size: 28px;
             }
             .container {
                 max-width: 1200px;
@@ -121,10 +115,10 @@
         </style>
     </head>
     <body>
-
+        <a class="back-link" href="menu.jsp">Trở lại menu</a>
         <div class="container">
             <h2>Giỏ hàng</h2>
-
+            
             <!-- Display Feedback Message -->
             <%
                 String message = (String) request.getAttribute("message");
